@@ -16,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={cn("bg-back text-white", montserrat.className)}>
-        {children}
-      </body>
+      <body className={cn(montserrat.className)}>{children}</body>
     </html>
   );
 }
