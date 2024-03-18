@@ -36,7 +36,7 @@ export default function CreateSecretary() {
   }
 
   return (
-    <div className="mx-6 space-y-6">
+    <div className="mx-6 space-y-6 lg:max-w-6xl lg:mx-auto">
       <TopHeader message="Cadastrar um novo Secretario" />
 
       <Form {...form}>

@@ -43,6 +43,10 @@
   }
 }
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
 .center {
   @apply flex items-center justify-center;
 }

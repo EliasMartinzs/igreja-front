@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -35,7 +36,7 @@ export default function CreateCelula() {
   }
 
   return (
-    <div className="mx-6 space-y-6">
+    <div className="mx-6 space-y-6 lg:max-w-6xl lg:mx-auto">
       <TopHeader message="Cadastrar uma nova célula" />
 
       <Form {...form}>
