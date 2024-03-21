@@ -13,9 +13,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { InputMask } from "@react-input/mask";
 
 type loginValidation = z.infer<typeof loginSchema>;
 
@@ -47,19 +48,17 @@ export function LoginForm() {
           control={form.control}
           name="user"
           render={({ field }) => (
-            <FormItem className="">
+            <FormItem>
               <FormLabel>Usuário</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Nome do usuário"
-                  className="input"
-                />
-              </FormControl>
-              <FormMessage />
+              <input
+                {...field}
+                placeholder="Insira sua senha"
+                className="input-mask"
+              />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
@@ -67,10 +66,11 @@ export function LoginForm() {
             <FormItem className="">
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <Input
+                <input
                   {...field}
                   placeholder="Insira sua senha"
-                  className="input"
+                  className="input-mask"
+                  type="password"
                 />
               </FormControl>
               <FormMessage />

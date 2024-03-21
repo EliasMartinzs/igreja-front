@@ -9,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { createCelula } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -51,10 +50,10 @@ export default function CreateCelula() {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome da Celula"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -69,10 +68,10 @@ export default function CreateCelula() {
               <FormItem>
                 <FormLabel>Secretario</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome do Secretario"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -87,10 +86,10 @@ export default function CreateCelula() {
               <FormItem>
                 <FormLabel>Anfitrião</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome do Anfitrião"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -105,10 +104,10 @@ export default function CreateCelula() {
               <FormItem>
                 <FormLabel>Líder</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome do Líder"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -123,10 +122,10 @@ export default function CreateCelula() {
               <FormItem>
                 <FormLabel>Líder em treinamento</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome do Líder em treinamento"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -141,10 +140,10 @@ export default function CreateCelula() {
               <FormItem>
                 <FormLabel>Endereço</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o Endereço"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />

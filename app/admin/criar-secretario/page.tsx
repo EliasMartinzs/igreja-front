@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+
 import { createSecretary } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
@@ -51,10 +51,10 @@ export default function CreateSecretary() {
               <FormItem>
                 <FormLabel>Usuário</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome de usuário"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -68,10 +68,10 @@ export default function CreateSecretary() {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome completo"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -85,11 +85,11 @@ export default function CreateSecretary() {
               <FormItem>
                 <FormLabel>E-Mail</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     type="email"
                     placeholder="Insira o e-mail"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -103,10 +103,10 @@ export default function CreateSecretary() {
               <FormItem>
                 <FormLabel>Célula</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome de usuário"
-                    className="input"
+                    className="input-mask"
                   />
                 </FormControl>
                 <FormMessage />
@@ -145,7 +145,7 @@ export default function CreateSecretary() {
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
                     </p>
                   </div>
-                  <Input type="file" className="hidden" {...field} />
+                  <input type="file" className="hidden" {...field} />
                   <FormMessage />
                 </label>
               </div>

@@ -13,13 +13,12 @@ import {
   FormMessage,
   FormItem,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 
-import { InputMask, useMask } from "@react-input/mask";
+import { InputMask } from "@react-input/mask";
 import { useTransition } from "react";
 import { cn } from "@/lib/utils";
 
@@ -70,10 +69,10 @@ export default function CriarNovoMembro({
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     {...field}
                     placeholder="Insira o nome completo do membro"
-                    className="input"
+                    className="input-mask"
                     disabled={isPending}
                   />
                 </FormControl>
@@ -92,7 +91,7 @@ export default function CriarNovoMembro({
                   mask="(__) _____-____"
                   replacement={{ _: /\d/ }}
                   {...field}
-                  className="border w-full bg-neutral-950/70 rounded-full py-3 outline-none focus:border-neutral-300 placeholder:text-sm px-3"
+                  className="input-mask"
                   placeholder="(00) 00000-0000"
                   disabled={isPending}
                 />
@@ -280,10 +279,10 @@ export default function CriarNovoMembro({
                 <FormItem>
                   <FormLabel>Célula</FormLabel>
                   <FormControl>
-                    <Input
+                    <input
                       placeholder="Célula deste membro!"
                       className={cn(
-                        "input disabled:bg-transparent disabled:border-muted"
+                        "input-mask disabled:bg-transparent disabled:border-muted"
                       )}
                       {...field}
                       disabled={isPending}
@@ -326,7 +325,7 @@ export default function CriarNovoMembro({
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
                     </p>
                   </div>
-                  <Input
+                  <input
                     type="file"
                     className="hidden"
                     {...field}

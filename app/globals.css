@@ -58,3 +58,7 @@ body {
 .input {
   @apply py-6 outline-none rounded-full bg-neutral-950/70 border focus:border-neutral-300;
 }
+
+.input-mask {
+  @apply border w-full bg-neutral-950/70 rounded-full py-3 outline-none focus:border-neutral-300 placeholder:text-sm px-3;
+}
