@@ -22,7 +22,7 @@ export default function CreateCelula() {
   const form = useForm<secretarySchema>({
     resolver: zodResolver(createCelula),
     defaultValues: {
-      name: "",
+      celula: "",
       adress: "",
       host: "",
       leader: "",
@@ -36,8 +36,8 @@ export default function CreateCelula() {
   }
 
   return (
-    <div className="mx-6 space-y-6 lg:max-w-6xl lg:mx-auto">
-      <TopHeader message="Cadastrar uma nova célula" />
+    <div className="m-6 space-y-6 lg:max-w-6xl lg:mx-auto">
+      <TopHeader message="Cadastrar uma nova célula" href="/admin" />
 
       <Form {...form}>
         <form
@@ -46,14 +46,14 @@ export default function CreateCelula() {
         >
           <FormField
             control={form.control}
-            name="name"
+            name="celula"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Insira o nome de Usuário"
+                    placeholder="Insira o nome da Celula"
                     className="input"
                   />
                 </FormControl>

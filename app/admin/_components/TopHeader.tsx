@@ -3,13 +3,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 interface ITopHeader {
   message: string;
+  href: string;
 }
 
 export function TopHeader(props: ITopHeader) {
-  const { message } = props;
+  const { message, href } = props;
   return (
     <div className="mt-8 text-center center">
-      <Link href="/admin">
+      <Link href={href}>
         <FaArrowLeft className="text-2xl" />
       </Link>
       <div className="flex-1">
