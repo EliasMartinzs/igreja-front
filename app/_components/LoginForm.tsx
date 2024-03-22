@@ -1,93 +1,115 @@
-"use client";
-import { loginSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+'use client';
+import { loginSchema } from '@/lib/validations';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { InputMask } from "@react-input/mask";
+import { Spinner } from '@/components/reusable/Spinner';
+import { Button } from '@/components/ui/button';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 type loginValidation = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const form = useForm<loginValidation>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      user: "",
-      password: "",
-    },
-  });
-  const router = useRouter();
+    const [error, setError] = useState('');
+    const form = useForm<loginValidation>({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            user: '',
+            password: '',
+        },
+    });
 
-  function onSubmit(data: loginValidation) {
-    const parsedData = loginSchema.safeParse(data);
+    const [isPending, startTransition] = useTransition();
 
-    if (parsedData.success) {
-      router.push("/admin");
+    const { signIn } = useContext(AuthContext);
+
+    async function onSubmit(data: loginValidation) {
+        setError('');
+        const parsedData = loginSchema.safeParse(data);
+
+        if (parsedData.success) {
+            const { data } = parsedData;
+
+            try {
+                startTransition(async () => {
+                    await signIn(data);
+                });
+            } catch {
+                setError('Usuário ou senha inválidos!');
+            }
+        }
     }
-  }
 
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full h-full gap-y-5 flex flex-col"
-      >
-        <FormField
-          control={form.control}
-          name="user"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Usuário</FormLabel>
-              <input
-                {...field}
-                placeholder="Insira sua senha"
-                className="input-mask"
-              />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="">
-              <FormLabel>Senha</FormLabel>
-              <FormControl>
-                <input
-                  {...field}
-                  placeholder="Insira sua senha"
-                  className="input-mask"
-                  type="password"
+    return (
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-full h-full gap-y-5 flex flex-col"
+            >
+                <FormField
+                    control={form.control}
+                    name="user"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Usuário</FormLabel>
+                            <FormControl>
+                                <input
+                                    {...field}
+                                    placeholder="Insira sua senha"
+                                    className="input-mask"
+                                    disabled={isPending}
+                                />
+                            </FormControl>
+                        </FormItem>
+                    )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
-        <div className="mt-auto mb-10">
-          <Button
-            className="p-7 bg-darkRed font-black text-lg hover:bg-darkRed/70 transition-colors"
-            rounded="full"
-            size="full"
-          >
-            Entrar
-          </Button>
-        </div>
-      </form>
-    </Form>
-  );
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem className="">
+                            <FormLabel>Senha</FormLabel>
+                            <FormControl>
+                                <input
+                                    {...field}
+                                    placeholder="Insira sua senha"
+                                    className="input-mask"
+                                    type="password"
+                                    disabled={isPending}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <small className="mt-[-16px] text-destructive font-semidbold">
+                    {error}
+                </small>
+
+                <div className="mt-auto">
+                    <Button
+                        className="p-6 bg-red font-semibold text-lg active:bg-red/70 hover:bg-red/50 transition-colors disabled:bg-opacity-70 disabled:shadow-inner center gap-x-3"
+                        rounded="full"
+                        size="full"
+                        disabled={isPending}
+                    >
+                        {isPending ? <Spinner /> : 'Login'}
+                    </Button>
+                </div>
+            </form>
+        </Form>
+    );
 }

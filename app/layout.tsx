@@ -1,22 +1,34 @@
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
+import type { Metadata } from 'next';
+import { Montserrat } from 'next/font/google';
+import './globals.css';
+import { cn } from '@/lib/utils';
+import Providers from './providers';
+import { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Igreja",
+    title: 'Igreja',
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="pt-BR">
-      <body className={cn(montserrat.className)}>{children}</body>
-    </html>
-  );
+    return (
+        <html lang="pt-BR">
+            <body
+                className={cn(montserrat.className)}
+                suppressHydrationWarning={true}
+            >
+                <Providers>
+                    <SkeletonTheme baseColor='#222' highlightColor='#444'>
+                        {children}
+                    </SkeletonTheme>
+                </Providers>
+            </body>
+        </html>
+    );
 }
