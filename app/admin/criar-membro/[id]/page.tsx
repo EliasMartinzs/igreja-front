@@ -14,6 +14,14 @@ import {
     FormItem,
 } from '@/components/ui/form';
 
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
@@ -21,6 +29,9 @@ import { Button } from '@/components/ui/button';
 import { InputMask } from '@react-input/mask';
 import { useTransition } from 'react';
 import { cn } from '@/lib/utils';
+import { CalendarIcon } from '@radix-ui/react-icons';
+import { ptBR } from 'date-fns/locale';
+import { api } from '@/services/api';
 
 type createValidation = z.infer<typeof createNewMemberSchema>;
 
@@ -39,6 +50,7 @@ export default function CriarNovoMembro({
             newConvert: undefined,
             phone: undefined,
             schoolLeaders: undefined,
+            birthday: undefined,
             sexo: undefined,
             cell: '', // se o admin vier atravez de uma celula pronto pegar o nome da celula e passar aqui para validacao e o input vai ficar invisiviel, se o admin vier pelo atalho o input ficara visivel para escolha da celula e passala aqui para validacao, e trocar o input para um select de unica escolha
         },
@@ -47,8 +59,37 @@ export default function CriarNovoMembro({
     // animacao do input ao realizao requisicao
     const [isPending, startTransition] = useTransition();
 
-    function onSubmit(data: createValidation) {
-        console.log(data);
+    async function onSubmit(data: createValidation) {
+        const parsedData = createNewMemberSchema.safeParse(data);
+
+        if (parsedData.success) {
+            const {
+                birthday,
+                christian,
+                descubra,
+                img,
+                name,
+                newConvert,
+                phone,
+                schoolLeaders,
+                sexo,
+            } = data;
+            try {
+                await api.post('/membros', {
+                    nome: name,
+                    telefone: phone,
+                    sexo: sexo,
+                    data_nascimento: birthday,
+                    cristao: christian,
+                    novo_convertido: newConvert,
+                    descubra: descubra,
+                    escola_de_lideres: schoolLeaders,
+                    foto: img,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 
     return (
@@ -130,6 +171,57 @@ export default function CriarNovoMembro({
                                     </RadioGroup>
                                 </FormControl>
                                 <FormMessage></FormMessage>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="birthday"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Nascimento</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                className={cn(
+                                                    'border rounded-full py-6 bg-neutral-950/70',
+                                                    !field.value && '',
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(
+                                                        field.value,
+                                                        'dd/MM/yyyy',
+                                                    )
+                                                ) : (
+                                                    <span className="bg-transparent">
+                                                        Escolha uma data
+                                                    </span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                        className="w-auto p-0"
+                                        align="start"
+                                    >
+                                        <Calendar
+                                            mode="single"
+                                            locale={ptBR}
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            disabled={(date) =>
+                                                date > new Date() ||
+                                                date < new Date('1900-01-01')
+                                            }
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />

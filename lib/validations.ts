@@ -74,7 +74,10 @@ export const createNewMemberSchema = z.object({
     schoolLeaders: z.boolean({
         description: 'Por favor, Indique se sim ou não.',
     }),
-    cell: z.string(),
+    cell: z.string().optional(),
+    birthday: z.date({
+        required_error: 'Por favor, Foneça uma data de aniversario valida.',
+    }),
     img: z.string().min(1, {
         message: 'Por favor, Insira uma imagem',
     }),
