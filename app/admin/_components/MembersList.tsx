@@ -1,6 +1,3 @@
-
-export  function MembersList() {
-  return (
-    <div>MembersList</div>
-  )
+export function MembersList() {
+    return <div>MembersList</div>;
 }

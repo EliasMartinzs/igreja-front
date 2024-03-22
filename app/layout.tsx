@@ -4,7 +4,8 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import Providers from './providers';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-loading-skeleton/dist/skeleton.css';
+import { Toaster } from '@/components/ui/toaster';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -24,8 +25,9 @@ export default function RootLayout({
                 suppressHydrationWarning={true}
             >
                 <Providers>
-                    <SkeletonTheme baseColor='#222' highlightColor='#444'>
+                    <SkeletonTheme baseColor="#222" highlightColor="#444">
                         {children}
+                        <Toaster />
                     </SkeletonTheme>
                 </Providers>
             </body>
