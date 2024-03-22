@@ -27,7 +27,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 
 import { InputMask } from '@react-input/mask';
-import { useTransition } from 'react';
+import { ChangeEvent, useState, useTransition } from 'react';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { ptBR } from 'date-fns/locale';
@@ -40,6 +40,7 @@ export default function CriarNovoMembro({
 }: {
     params: { id: string };
 }) {
+    const [files, setFiles] = useState<File[]>([]);
     const form = useForm<createValidation>({
         resolver: zodResolver(createNewMemberSchema),
         defaultValues: {
@@ -58,6 +59,31 @@ export default function CriarNovoMembro({
 
     // animacao do input ao realizao requisicao
     const [isPending, startTransition] = useTransition();
+
+    const handleImage = (
+        e: ChangeEvent<HTMLInputElement>,
+        fieldChange: (value: string) => void,
+    ) => {
+        e.preventDefault();
+
+        const fileReader = new FileReader();
+
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+
+            setFiles(Array.from(e.target.files));
+
+            if (!file.type.includes('image')) return;
+
+            fileReader.onload = async (e) => {
+                const imageDataUrl = e.target?.result?.toString() || '';
+
+                fieldChange(imageDataUrl);
+            };
+
+            fileReader.readAsDataURL(file);
+        }
+    };
 
     async function onSubmit(data: createValidation) {
         const parsedData = createNewMemberSchema.safeParse(data);
@@ -435,9 +461,12 @@ export default function CriarNovoMembro({
                                     </div>
                                     <input
                                         type="file"
-                                        className="hidden"
-                                        {...field}
-                                        disabled={isPending}
+                                        accept="image/*"
+                                        placeholder="Upload a photo"
+                                        className="account-form_image-input"
+                                        onChange={(e) =>
+                                            handleImage(e, field.onChange)
+                                        }
                                     />
                                     <FormMessage />
                                 </label>
