@@ -47,6 +47,8 @@ import { FiCheckCircle } from 'react-icons/fi';
 import { CelulasResponse, getCelulas } from '@/services/celula';
 import { Spinner } from '@/components/reusable/Spinner';
 import { useToast } from '@/components/ui/use-toast';
+import { revalidatePath } from 'next/cache';
+import { createMember } from '@/services/members';
 
 type createValidation = z.infer<typeof createNewMemberSchema>;
 
@@ -109,46 +111,13 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
     };
 
     async function onSubmit(data: createValidation) {
-        const parsedData = createNewMemberSchema.safeParse(data);
+        startTransition(async () => {
+            await createMember(data);
 
-        if (parsedData.success) {
-            const {
-                birthday,
-                christian,
-                descubra,
-                img,
-                name,
-                newConvert,
-                phone,
-                schoolLeaders,
-                sexo,
-            } = data;
-            try {
-                startTransition(async () => {
-                    await api.post('/membros', {
-                        nome: name,
-                        telefone: phone,
-                        sexo: sexo,
-                        data_nascimento: birthday,
-                        cristao: christian,
-                        novo_convertido: newConvert,
-                        descubra: descubra,
-                        escola_de_lideres: schoolLeaders,
-                        foto: img,
-                    });
-                });
-
-                toast({
-                    title: 'Membro criado com sucesso',
-                });
-            } catch (error) {
-                setError('Não foi possivel criar o membro!');
-            }
-        } else {
             toast({
-                title: error,
+                title: 'Membro criado com sucesso',
             });
-        }
+        });
     }
 
     return (

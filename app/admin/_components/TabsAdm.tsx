@@ -1,19 +1,20 @@
-'use client';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
-import { IconBase } from 'react-icons/lib';
+
 import { Celulas } from './Celulas';
 import { Members } from './Members';
+import { getMembers } from '@/services/members';
 type Card = {
     name: string;
     link: string;
     icon: ReactNode;
 };
 
-export function TabsAdm() {
+export async function TabsAdm() {
+    const members = await getMembers();
+
     const cards: Card[] = [
         {
             icon: <FiUserPlus className="text-3xl" />,
@@ -52,7 +53,7 @@ export function TabsAdm() {
                 ))}
             </TabsContent>
             <TabsContent value="membros">
-                <Members />
+                <Members members={members} />
             </TabsContent>
             <TabsContent value="celulas">
                 <Celulas />

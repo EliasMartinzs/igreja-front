@@ -1,3 +1,4 @@
+'use server';
 import { api } from './api';
 
 export type CelulasResponse = {
@@ -16,7 +17,5 @@ export const getCelulas = async () => {
     try {
         const response = await api.get('/celulas');
         return response.data as CelulasResponse;
-    } catch (error) {
-        console.log(error);
-    }
+    } catch (error) {}
 };
