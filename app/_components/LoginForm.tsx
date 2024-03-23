@@ -72,7 +72,6 @@ export function LoginForm() {
                                     {...field}
                                     placeholder="Usuario"
                                     className="input-mask"
-                                    type="password"
                                     disabled={isPending}
                                 />
                                 <span className="absolute right-4">
