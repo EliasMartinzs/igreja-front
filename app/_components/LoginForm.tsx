@@ -18,6 +18,9 @@ import { Spinner } from '@/components/reusable/Spinner';
 import { Button } from '@/components/ui/button';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import Image from 'next/image';
+import { FaLock } from 'react-icons/fa';
+import { FiUser } from 'react-icons/fi';
 
 type loginValidation = z.infer<typeof loginSchema>;
 
@@ -64,14 +67,20 @@ export function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Usuário</FormLabel>
-                            <FormControl>
+                            <div className="relative flex items-center justify-between">
                                 <input
                                     {...field}
-                                    placeholder="Insira sua senha"
+                                    placeholder="Usuario"
                                     className="input-mask"
+                                    type="password"
                                     disabled={isPending}
                                 />
-                            </FormControl>
+                                <span className="absolute right-4">
+                                    <FiUser className="w-4 h-4" />
+                                </span>
+                            </div>
+
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
@@ -80,9 +89,9 @@ export function LoginForm() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                        <FormItem className="">
+                        <FormItem>
                             <FormLabel>Senha</FormLabel>
-                            <FormControl>
+                            <div className="relative flex items-center justify-between">
                                 <input
                                     {...field}
                                     placeholder="Insira sua senha"
@@ -90,7 +99,11 @@ export function LoginForm() {
                                     type="password"
                                     disabled={isPending}
                                 />
-                            </FormControl>
+                                <span className="absolute right-4">
+                                    <FaLock className="w-3 h-3" />
+                                </span>
+                            </div>
+
                             <FormMessage />
                         </FormItem>
                     )}

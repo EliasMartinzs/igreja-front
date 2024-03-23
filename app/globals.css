@@ -56,5 +56,5 @@ body {
 }
 
 .input-mask {
-    @apply border w-full bg-neutral-950/70 rounded-full p-3 outline-none focus:border-neutral-300 placeholder:text-sm disabled:bg-transparent disabled:border-neutral-950/70;
+    @apply border w-full bg-neutral-950/70 rounded-full py-3 px-5 outline-none focus:bg-neutral-900 placeholder:text-sm disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all;
 }
