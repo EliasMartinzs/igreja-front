@@ -6,6 +6,7 @@ import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
 import { Celulas } from './Celulas';
 import { Members } from './Members';
 import { getMembers } from '@/services/members';
+
 type Card = {
     name: string;
     link: string;
@@ -33,7 +34,7 @@ export async function TabsAdm() {
         },
     ];
     return (
-        <Tabs defaultValue="atalhos">
+        <Tabs defaultValue="atalhos" className="">
             <TabsList className="grid grid-cols-3 rounded-full mb-4">
                 <TabsTrigger value="atalhos">Atalhos</TabsTrigger>
                 <TabsTrigger value="membros">Membros</TabsTrigger>

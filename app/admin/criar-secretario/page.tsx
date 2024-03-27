@@ -11,7 +11,7 @@ import {
 
 import { createSecretary } from '@/lib/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
+
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { TopHeader } from '../_components/TopHeader';
@@ -24,12 +24,10 @@ export default function CreateSecretary() {
         defaultValues: {
             user: '',
             name: '',
-            email: '',
             celula: '',
             backgroundCelula: '',
         },
     });
-    const inputRef = useRef<HTMLInputElement>(null);
 
     function onSubmit(data: secretarySchema) {
         console.log(data);
@@ -71,24 +69,6 @@ export default function CreateSecretary() {
                                     <input
                                         {...field}
                                         placeholder="Insira o nome completo"
-                                        className="input-mask"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>E-Mail</FormLabel>
-                                <FormControl>
-                                    <input
-                                        {...field}
-                                        type="email"
-                                        placeholder="Insira o e-mail"
                                         className="input-mask"
                                     />
                                 </FormControl>

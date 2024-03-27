@@ -16,10 +16,6 @@ export const createSecretary = z.object({
     name: z.string().min(5, {
         message: 'O nome do usuário é obrigatório e deve estar completo.',
     }),
-    email: z
-        .string()
-        .min(1, { message: 'Por favor, insira um email válido.' })
-        .email('Por favor, insira um email válido.'),
     celula: z.string().min(3, {
         message: 'Por favor, preencha corretamente o nome da célula',
     }),

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { SearchMember } from './SearchMember';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,12 +14,14 @@ import {
 } from '@/components/ui/pagination';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { usePathname, useRouter } from 'next/navigation';
+import { FaLock } from 'react-icons/fa';
+import { MembersSkeletons } from './skeletons/MembersSkeletons';
 
 interface IMembers {
     members: MembersResponse | undefined;
 }
 
-const pageSize = 5;
+const pageSize = 10;
 
 export function Members(props: IMembers) {
     const { members } = props;
@@ -51,64 +53,74 @@ export function Members(props: IMembers) {
             }));
 
     return (
-        <div className="space-y-4">
-            <SearchMember
-                searchMember={searchMember}
-                setSearchMember={setSearchMember}
-            />
-            {searchMember.length >= 1 ? (
+        <div>
+            <Suspense fallback={<MembersSkeletons />}>
                 <div className="space-y-4">
-                    {Array.isArray(filteredMembers) &&
-                        filteredMembers.map(({ nome }) => (
-                            <Membro nome={nome} nome_celula="Ñão tem ainda" />
-                        ))}
-                </div>
-            ) : (
-                <div>
-                    <div className="space-y-4">
-                        {Array.isArray(currentItems) &&
-                            currentItems.map(({ nome }) => (
-                                <Membro
-                                    nome={nome}
-                                    nome_celula="Não tem ainda!"
-                                />
-                            ))}
-                    </div>
+                    <SearchMember
+                        searchMember={searchMember}
+                        setSearchMember={setSearchMember}
+                    />
+                    {searchMember.length >= 1 ? (
+                        <div className="space-y-4">
+                            {Array.isArray(filteredMembers) &&
+                                filteredMembers.map(({ nome }) => (
+                                    <Membro
+                                        nome={nome}
+                                        nome_celula="Ñão tem ainda"
+                                    />
+                                ))}
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="space-y-4">
+                                {Array.isArray(currentItems) &&
+                                    currentItems.map(({ nome }) => (
+                                        <Membro
+                                            nome={nome}
+                                            nome_celula="Não tem ainda!"
+                                        />
+                                    ))}
+                            </div>
 
-                    <Pagination>
-                        <PaginationContent>
-                            <PaginationItem>
-                                <ChevronLeftIcon
-                                    className="cursor-pointer w-5 h-5"
-                                    onClick={handlePrevPage}
-                                />
-                            </PaginationItem>
-                            {Array.from({ length: totalPages }).map(
-                                (_, index) => (
-                                    <PaginationItem
-                                        key={index}
-                                        className={
-                                            index === currentPage - 1
-                                                ? 'cursor-pointer bg-neutral-950 rounded-full'
-                                                : ''
-                                        }
-                                    >
-                                        <PaginationLink>
-                                            {index + 1}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                ),
-                            )}
-                            <PaginationItem>
-                                <ChevronRightIcon
-                                    className="cursor-pointer w-5 h-5"
-                                    onClick={handleNextPage}
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
+                            <div className="mt-5">
+                                <Pagination>
+                                    <PaginationContent>
+                                        <PaginationItem>
+                                            <ChevronLeftIcon
+                                                className="cursor-pointer w-5 h-5"
+                                                onClick={handlePrevPage}
+                                            />
+                                        </PaginationItem>
+                                        {Array.from({ length: totalPages }).map(
+                                            (_, index) => (
+                                                <PaginationItem
+                                                    key={index}
+                                                    className={
+                                                        index ===
+                                                        currentPage - 1
+                                                            ? 'cursor-pointer bg-neutral-950 rounded-full'
+                                                            : ''
+                                                    }
+                                                >
+                                                    <PaginationLink>
+                                                        {index + 1}
+                                                    </PaginationLink>
+                                                </PaginationItem>
+                                            ),
+                                        )}
+                                        <PaginationItem>
+                                            <ChevronRightIcon
+                                                className="cursor-pointer w-5 h-5"
+                                                onClick={handleNextPage}
+                                            />
+                                        </PaginationItem>
+                                    </PaginationContent>
+                                </Pagination>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            )}
+            </Suspense>
         </div>
     );
 }

@@ -29,7 +29,7 @@ export default function Celula({ params }: { params: { id: number } }) {
                         <Label className="font-semibold text-lg">
                             Observações
                             <Textarea
-                                className="border rounded-md bg-neutral-950/70"
+                                className="border w-full bg-neutral-950/70 rounded-lg py-3 outline-none focus:bg-neutral-900 placeholder:text-sm disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all"
                                 rows={8}
                                 placeholder="Observações"
                             />

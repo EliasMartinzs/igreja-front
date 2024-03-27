@@ -1,11 +1,10 @@
 import { api } from './api';
 
-
 type DashboardResponse = {
     totalCelulas: number;
     totalMembros: number;
     totalEncontros: number;
-}
+};
 
 export const getDashboardAdmin = async (): Promise<DashboardResponse> => {
     try {
