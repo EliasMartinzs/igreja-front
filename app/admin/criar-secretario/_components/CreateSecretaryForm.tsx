@@ -9,25 +9,19 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 
 import { createSecretarySchema } from '@/lib/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { FiCheckCircle } from 'react-icons/fi';
-import { ChangeEvent, useRef, useState, useTransition } from 'react';
-import { TopHeader } from '../../_components/TopHeader';
 import { CelulasResponse } from '@/services/celula';
-import { toast } from 'react-toastify';
 import { createSecretary } from '@/services/secretary';
+import { ChangeEvent, useRef, useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { FiCheckCircle } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import * as z from 'zod';
+import { TopHeader } from '../../_components/TopHeader';
+import { useRouter } from 'next/navigation';
 
 type secretarySchema = z.infer<typeof createSecretarySchema>;
 
@@ -39,7 +33,7 @@ export default function CreateSecretaryForm({ celulas }: Props) {
     const [files, setFiles] = useState<File[]>([]);
     const [selectedFileName, setSelectedFileName] = useState<string>('');
     const [isPending, startTransition] = useTransition();
-
+    const router = useRouter();
     const form = useForm<secretarySchema>({
         resolver: zodResolver(createSecretarySchema),
         defaultValues: {
@@ -81,7 +75,7 @@ export default function CreateSecretaryForm({ celulas }: Props) {
     async function onSubmit(data: secretarySchema) {
         console.log(data);
 
-        await createSecretary(data);
+        await createSecretary(data, router);
 
         toast.success('secretario criado com sucesso');
     }

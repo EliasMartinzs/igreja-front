@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { api } from './api';
 
 import { createSecretarySchema } from '@/lib/validations';
-import { redirect, RedirectType, useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export type SecretaryResponse = {
     id: number;
@@ -23,6 +23,7 @@ export const getSecretary = async (): Promise<
 
 export const createSecretary = async (
     data: z.infer<typeof createSecretarySchema>,
+    router: AppRouterInstance,
 ) => {
     const parsedData = createSecretarySchema.safeParse(data);
 
@@ -36,6 +37,8 @@ export const createSecretary = async (
                 usuario: user,
                 foto: img,
             });
+
+            router.push('/admin');
         } catch (error: any) {
             console.log(error);
         }
