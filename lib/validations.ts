@@ -9,7 +9,7 @@ export const loginSchema = z.object({
     }),
 });
 
-export const createSecretary = z.object({
+export const createSecretarySchema = z.object({
     user: z.string().min(3, {
         message: 'O nome de usuário deve ter pelo menos 3 caracteres.',
     }),

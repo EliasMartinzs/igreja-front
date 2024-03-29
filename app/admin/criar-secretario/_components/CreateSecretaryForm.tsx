@@ -17,7 +17,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { createSecretary } from '@/lib/validations';
+import { createSecretarySchema } from '@/lib/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useForm } from 'react-hook-form';
@@ -27,8 +27,9 @@ import { ChangeEvent, useRef, useState, useTransition } from 'react';
 import { TopHeader } from '../../_components/TopHeader';
 import { CelulasResponse } from '@/services/celula';
 import { toast } from 'react-toastify';
+import { createSecretary } from '@/services/secretary';
 
-type secretarySchema = z.infer<typeof createSecretary>;
+type secretarySchema = z.infer<typeof createSecretarySchema>;
 
 interface Props {
     celulas: CelulasResponse | undefined;
@@ -40,7 +41,7 @@ export default function CreateSecretaryForm({ celulas }: Props) {
     const [isPending, startTransition] = useTransition();
 
     const form = useForm<secretarySchema>({
-        resolver: zodResolver(createSecretary),
+        resolver: zodResolver(createSecretarySchema),
         defaultValues: {
             user: '',
             name: '',
@@ -77,10 +78,12 @@ export default function CreateSecretaryForm({ celulas }: Props) {
         }
     };
 
-    function onSubmit(data: secretarySchema) {
+    async function onSubmit(data: secretarySchema) {
         console.log(data);
 
-        toast.success('vamos testar');
+        await createSecretary(data);
+
+        toast.success('secretario criado com sucesso');
     }
 
     return (

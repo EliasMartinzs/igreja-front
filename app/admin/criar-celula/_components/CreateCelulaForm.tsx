@@ -48,7 +48,6 @@ export default function CreateCelulaForm({ secretary }: Props) {
     return (
         <div className="m-6 space-y-6 lg:max-w-6xl lg:mx-auto">
             <TopHeader message="Cadastrar uma nova célula" href="/admin" />
-
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
