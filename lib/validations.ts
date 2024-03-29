@@ -16,9 +16,6 @@ export const createSecretary = z.object({
     name: z.string().min(5, {
         message: 'O nome do usuário é obrigatório e deve estar completo.',
     }),
-    celula: z.string().min(3, {
-        message: 'Por favor, preencha corretamente o nome da célula',
-    }),
     img: z.string().optional(),
     password: z.string().min(6, {
         message: 'A senha deve ter pelo menos 3 caracteres.',
@@ -31,16 +28,6 @@ export const createCelula = z.object({
         .min(2, { message: 'O nome deve ter pelo menos 2 caracteres' }),
     secretary: z.string().min(2, {
         message: 'O nome do secretário deve ter pelo menos 2 caracteres',
-    }),
-    host: z.string().min(2, {
-        message: 'O nome do anfitrião deve ter pelo menos 2 caracteres',
-    }),
-    leader: z.string().min(2, {
-        message: 'O nome do líder deve ter pelo menos 2 caracteres',
-    }),
-    trainingLeader: z.string().min(2, {
-        message:
-            'O nome do líder em treinamento deve ter pelo menos 2 caracteres',
     }),
     adress: z
         .string()

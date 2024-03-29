@@ -44,7 +44,6 @@ export default function CreateSecretaryForm({ celulas }: Props) {
         defaultValues: {
             user: '',
             name: '',
-            celula: '',
             img: '',
             password: '',
         },
@@ -106,41 +105,6 @@ export default function CreateSecretaryForm({ celulas }: Props) {
                                         className="input-mask"
                                     />
                                 </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="celula"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Células</FormLabel>
-                                <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger className="text-slate-300/50">
-                                            <SelectValue placeholder="Identifique a célula do secretário." />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <div>
-                                            <Button>Criar uma celula</Button>
-                                        </div>
-                                        {celulas !== undefined &&
-                                            celulas.map(({ nome_celula }) => (
-                                                <SelectItem
-                                                    id={nome_celula}
-                                                    value={nome_celula}
-                                                >
-                                                    {nome_celula}
-                                                </SelectItem>
-                                            ))}
-                                    </SelectContent>
-                                </Select>
                                 <FormMessage />
                             </FormItem>
                         )}

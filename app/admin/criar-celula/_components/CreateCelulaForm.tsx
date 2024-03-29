@@ -37,10 +37,7 @@ export default function CreateCelulaForm({ secretary }: Props) {
         defaultValues: {
             celula: '',
             adress: '',
-            host: '',
-            leader: '',
             secretary: '',
-            trainingLeader: '',
         },
     });
 
@@ -102,60 +99,6 @@ export default function CreateCelulaForm({ secretary }: Props) {
                                             ))}
                                     </SelectContent>
                                 </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="host"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Anfitrião</FormLabel>
-                                <FormControl>
-                                    <input
-                                        {...field}
-                                        placeholder="Insira o nome do Anfitrião"
-                                        className="input-mask"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="leader"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Líder</FormLabel>
-                                <FormControl>
-                                    <input
-                                        {...field}
-                                        placeholder="Insira o nome do Líder"
-                                        className="input-mask"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="trainingLeader"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Líder em treinamento</FormLabel>
-                                <FormControl>
-                                    <input
-                                        {...field}
-                                        placeholder="Insira o nome do Líder em treinamento"
-                                        className="input-mask"
-                                    />
-                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
