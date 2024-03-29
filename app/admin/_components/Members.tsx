@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { SearchMember } from './SearchMember';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,8 +13,6 @@ import {
     PaginationLink,
 } from '@/components/ui/pagination';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
-import { usePathname, useRouter } from 'next/navigation';
-import { FaLock } from 'react-icons/fa';
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
 
 interface IMembers {

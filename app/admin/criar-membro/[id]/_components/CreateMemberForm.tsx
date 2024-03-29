@@ -42,12 +42,11 @@ import { ChangeEvent, useRef, useState, useTransition } from 'react';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { ptBR } from 'date-fns/locale';
-import { api } from '@/services/api';
+
 import { FiCheckCircle } from 'react-icons/fi';
-import { CelulasResponse, getCelulas } from '@/services/celula';
+import { CelulasResponse } from '@/services/celula';
 import { Spinner } from '@/components/reusable/Spinner';
-import { useToast } from '@/components/ui/use-toast';
-import { revalidatePath } from 'next/cache';
+
 import { createMember } from '@/services/members';
 
 type createValidation = z.infer<typeof createNewMemberSchema>;
@@ -63,7 +62,6 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
     const [files, setFiles] = useState<File[]>([]);
     const [selectedFileName, setSelectedFileName] = useState<string>('');
     const [error, setError] = useState('');
-    const { toast } = useToast();
     const form = useForm<createValidation>({
         resolver: zodResolver(createNewMemberSchema),
         defaultValues: {
@@ -113,10 +111,6 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
     async function onSubmit(data: createValidation) {
         startTransition(async () => {
             await createMember(data);
-
-            toast({
-                title: 'Membro criado com sucesso',
-            });
         });
     }
 
@@ -212,7 +206,7 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
                                         <FormControl>
                                             <Button
                                                 className={cn(
-                                                    'border rounded-full py-6 bg-neutral-950/70',
+                                                    'border rounded-full py-6 bg-neutral-950/40',
                                                     !field.value && '',
                                                 )}
                                             >
@@ -426,13 +420,14 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
                                                 </SelectLabel>
                                                 {celulas !== undefined &&
                                                     celulas.map(
-                                                        ({
-                                                            id,
-                                                            nome_celula,
-                                                        }) => (
+                                                        ({ nome_celula }) => (
                                                             <SelectItem
-                                                                key={id.toString()}
-                                                                value={id.toString()}
+                                                                key={
+                                                                    nome_celula
+                                                                }
+                                                                value={
+                                                                    nome_celula
+                                                                }
                                                             >
                                                                 {nome_celula}
                                                             </SelectItem>
@@ -452,7 +447,7 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
                         name="img"
                         render={({ field }) => (
                             <div className="w-full">
-                                <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer">
+                                <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed hover:border-neutral-500 transition-colors rounded-lg cursor-pointer">
                                     {field.value ? (
                                         <>
                                             <div className="flex flex-col items-center justify-center pt-5 pb-6 gap-y-5">

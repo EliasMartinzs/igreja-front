@@ -4,47 +4,45 @@
 
 @layer base {
     :root {
-        --background: #121212;
-        --foreground: 213 31% 91%;
+        --background: 0 0% 7%;
+        --foreground: 0 0% 100%;
 
-        --muted: 223 47% 11%;
-        --muted-foreground: 215.4 16.3% 56.9%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
 
-        --accent: #121212b2;
-        --accent-foreground: 210 40% 98%;
+        --popover: 0 0% 7%;
+        --popover-foreground: 0 0% 100%;
 
-        --popover: 224 71% 4%;
-        --popover-foreground: 215 20.2% 65.1%;
+        --card: 0 0% 7%;
+        --card-foreground: 0 0% 100%;
 
-        --border: rgb(212 212 212 / 0.3);
-        --input: rgb(212 212 212 / 0.3);
+        --primary: 0 0% 100%;
+        --primary-foreground: 210 40% 98%;
 
-        --card: 224 71% 4%;
-        --card-foreground: 213 31% 91%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 0 0% 100%;
 
-        --primary: 210 40% 98%;
-        --primary-foreground: 222.2 47.4% 1.2%;
+        --accent: 0 0% 12%;
+        --accent-foreground: 0 0% 100%;
 
-        --secondary: 222.2 47.4% 11.2%;
-        --secondary-foreground: 210 40% 98%;
-
-        --destructive: 0 63% 31%;
+        --destructive: 0 100% 50%;
         --destructive-foreground: 210 40% 98%;
 
-        --ring: #121212;
+        --ring: 215 20.2% 65.1%;
 
         --radius: 0.5rem;
     }
 }
 
-@layer base {
-    * {
-        @apply border-neutral-300/30 bg-back text-white;
-    }
+* {
+    @apply border-neutral-600/30;
 }
-
 body {
+    @apply bg-background text-foreground;
     font-family: 'Montserrat', sans-serif;
+    font-feature-settings:
+        'rlig' 1,
+        'calt' 1;
 }
 
 .center {
@@ -56,5 +54,5 @@ body {
 }
 
 .input-mask {
-    @apply border w-full bg-neutral-950/70 rounded-full py-3 px-5 outline-none focus:bg-neutral-900 placeholder:text-sm disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all;
+    @apply border w-full bg-neutral-950/40 rounded-full py-3 px-5 outline-none focus:bg-neutral-900 placeholder:text-sm placeholder:text-slate-300/50 disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all;
 }

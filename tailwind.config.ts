@@ -27,7 +27,6 @@ const config = {
                 ring: 'hsl(var(--ring))',
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
-                back: '#121212',
                 red: '#E20415',
                 darkRed: '#B71C1C',
                 primary: {
@@ -60,8 +59,8 @@ const config = {
                 },
             },
             borderRadius: {
-                lg: 'var(--radius)',
-                md: 'calc(var(--radius) - 2px)',
+                lg: `var(--radius)`,
+                md: `calc(var(--radius) - 2px)`,
                 sm: 'calc(var(--radius) - 4px)',
             },
             keyframes: {

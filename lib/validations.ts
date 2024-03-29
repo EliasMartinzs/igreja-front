@@ -19,8 +19,9 @@ export const createSecretary = z.object({
     celula: z.string().min(3, {
         message: 'Por favor, preencha corretamente o nome da célula',
     }),
-    backgroundCelula: z.string().min(1, {
-        message: 'Por favor, adicione uma imagem para continuar.',
+    img: z.string().optional(),
+    password: z.string().min(6, {
+        message: 'A senha deve ter pelo menos 3 caracteres.',
     }),
 });
 
@@ -74,7 +75,5 @@ export const createNewMemberSchema = z.object({
     birthday: z.date({
         required_error: 'Por favor, Foneça uma data de aniversario valida.',
     }),
-    img: z.string().min(1, {
-        message: 'Por favor, Insira uma imagem',
-    }),
+    img: z.string().optional(),
 });
