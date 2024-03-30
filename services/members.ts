@@ -3,7 +3,7 @@ import { api } from './api';
 import { createNewMemberSchema } from '@/lib/validations';
 import { revalidatePath } from 'next/cache';
 
-export type MembersResponse = {
+export type GetMembersResponse = {
     id: number;
     nome: string;
     telefone: string;
@@ -15,14 +15,29 @@ export type MembersResponse = {
     descubra: boolean;
     foto: string;
     encontroId: null;
-}[];
+    celulaId: null;
+};
 
-export const getMembers = async () => {
+export const getMembers = async (): Promise<GetMembersResponse> => {
     try {
         const response = await api.get('/membros');
 
-        return response.data as MembersResponse;
-    } catch (error) {}
+        return response.data as GetMembersResponse;
+    } catch (error) {
+        throw new Error(`Erro ao obter todos os membros`);
+    }
+};
+
+export const getMembersById = async (
+    id: number,
+): Promise<GetMembersResponse> => {
+    try {
+        const response = await api.get(`/membros/${id}`);
+
+        return response.data as GetMembersResponse;
+    } catch (error: any) {
+        throw new Error(`Erro ao obter membros por ID ${id}: ${error.message}`);
+    }
 };
 
 export const createMember = async (
@@ -41,9 +56,10 @@ export const createMember = async (
             phone,
             schoolLeaders,
             sexo,
+            cellId,
         } = parsedData.data;
         try {
-            const response = await api.post('/membros', {
+            await api.post('/membros', {
                 nome: name,
                 telefone: phone,
                 sexo: sexo,
@@ -53,11 +69,10 @@ export const createMember = async (
                 descubra: descubra,
                 escola_de_lideres: schoolLeaders,
                 foto: img,
+                celulaId: +cellId,
             });
 
             revalidatePath('/admin');
-
-            return response.data;
         } catch (error) {}
     }
 };

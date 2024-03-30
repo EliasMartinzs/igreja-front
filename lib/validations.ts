@@ -22,12 +22,12 @@ export const createSecretarySchema = z.object({
     }),
 });
 
-export const createCelula = z.object({
+export const createCelulaSchema = z.object({
     celula: z
         .string()
         .min(2, { message: 'O nome deve ter pelo menos 2 caracteres' }),
-    secretary: z.string().min(2, {
-        message: 'O nome do secretário deve ter pelo menos 2 caracteres',
+    secretaryId: z.string().min(1, {
+        message: 'Por favor, selecione um secretário.',
     }),
     adress: z
         .string()
@@ -58,7 +58,9 @@ export const createNewMemberSchema = z.object({
     schoolLeaders: z.boolean({
         description: 'Por favor, Indique se sim ou não.',
     }),
-    cell: z.string().optional(),
+    cellId: z.string().min(1, {
+        message: 'Por favor, selecione uma célula para este membro.',
+    }),
     birthday: z.date({
         required_error: 'Por favor, Foneça uma data de aniversario valida.',
     }),

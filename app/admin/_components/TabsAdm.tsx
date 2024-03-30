@@ -6,6 +6,7 @@ import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
 import { Celulas } from './Celulas';
 import { Members } from './Members';
 import { getMembers } from '@/services/members';
+import { getCelulas } from '@/services/celula';
 
 type Card = {
     name: string;
@@ -15,6 +16,7 @@ type Card = {
 
 export async function TabsAdm() {
     const members = await getMembers();
+    const celulas = await getCelulas();
 
     const cards: Card[] = [
         {
@@ -43,6 +45,7 @@ export async function TabsAdm() {
             <TabsContent value="atalhos" className="grid grid-cols-3 gap-2">
                 {cards.map((card) => (
                     <Link
+                        key={card.name}
                         href={card.link}
                         className="w-full border rounded-3xl center items-center flex-col justify-center h-[150px] cursor-pointer hover:border-neutral-200 transition-colors"
                     >
@@ -57,7 +60,7 @@ export async function TabsAdm() {
                 <Members members={members} />
             </TabsContent>
             <TabsContent value="celulas">
-                <Celulas />
+                <Celulas celulas={celulas} />
             </TabsContent>
         </Tabs>
     );

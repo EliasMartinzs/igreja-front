@@ -1,7 +1,13 @@
 'use server';
-import { api } from './api';
 
-export type CelulasResponse = {
+import { z } from 'zod';
+import { api } from './api';
+import { createCelulaSchema } from '@/lib/validations';
+import { revalidatePath } from 'next/cache';
+import { navigate } from './navigate';
+
+export type GetCelulasResponse = {
+    id: number;
     nome_celula: string;
     secretarioId: number;
     latitude: number;
@@ -9,11 +15,73 @@ export type CelulasResponse = {
     endereco: string;
     liderId: number;
     liderEmTreinamentoId: number;
-}[];
+};
 
-export const getCelulas = async (): Promise<CelulasResponse | undefined> => {
+export type CreateCelulaResponse = {
+    endereco: string;
+    nome_celula: string;
+    secretarioId: string;
+};
+
+export const getCelulas = async (): Promise<GetCelulasResponse> => {
     try {
         const response = await api.get('/celulas');
-        return response.data as CelulasResponse;
-    } catch (error) {}
+        return response.data as GetCelulasResponse;
+    } catch (error: any) {
+        throw new Error(error);
+    }
+};
+
+export const getCelulaById = async (
+    id: number,
+): Promise<GetCelulasResponse> => {
+    try {
+        const response = await api.get(`/celulas/${id}`);
+
+        return response.data as GetCelulasResponse;
+    } catch (error: any) {
+        throw new Error(error);
+    }
+};
+
+export const createCelula = async (
+    data: z.infer<typeof createCelulaSchema>,
+): Promise<CreateCelulaResponse> => {
+    const parsedData = createCelulaSchema.safeParse(data);
+
+    if (parsedData.success) {
+        try {
+            const { adress, celula, secretaryId } = parsedData.data;
+
+            const response = await api.post('/celulas', {
+                nome_celula: celula,
+                secretarioId: +secretaryId,
+                endereco: adress,
+                liderId: 0,
+                liderEmTreinamentoId: 0,
+                latitude: 0,
+                longitude: 0,
+            });
+
+            revalidatePath('/admin');
+
+            return response.data as CreateCelulaResponse;
+        } catch (error: any) {
+            throw new Error(error);
+        }
+    } else {
+        throw new Error('Os dados fornecidos não são válidos.');
+    }
+};
+
+export const deleteCelula = async (id: number): Promise<void> => {
+    try {
+        await api.delete(`/celulas/${id}`);
+
+        revalidatePath('/admin');
+
+        navigate('/admin');
+    } catch (error: any) {
+        throw new Error(error);
+    }
 };

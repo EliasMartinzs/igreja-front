@@ -1,13 +1,19 @@
-import {Dispatch, SetStateAction} from 'react'
+import { Dispatch, SetStateAction } from 'react';
 
 interface ISearchMember {
-  searchMember: string
-  setSearchMember: Dispatch<SetStateAction<string>>
+    searchMember: string;
+    setSearchMember: Dispatch<SetStateAction<string>>;
+    placeholder: string;
 }
 
 export function SearchMember(props: ISearchMember) {
-  const {searchMember,setSearchMember} = props
-  return (
-    <input value={searchMember} onChange={e => setSearchMember(e.target.value)} className='input-mask' placeholder="Buscar por membros..."/>
-  )
+    const { searchMember, setSearchMember, placeholder } = props;
+    return (
+        <input
+            value={searchMember}
+            onChange={(e) => setSearchMember(e.target.value)}
+            className="input-mask"
+            placeholder={placeholder}
+        />
+    );
 }

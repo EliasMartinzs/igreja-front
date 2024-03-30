@@ -44,24 +44,26 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { ptBR } from 'date-fns/locale';
 
 import { FiCheckCircle } from 'react-icons/fi';
-import { CelulasResponse } from '@/services/celula';
+import { GetCelulasResponse } from '@/services/celula';
 import { Spinner } from '@/components/reusable/Spinner';
 
 import { createMember } from '@/services/members';
+import { navigate } from '@/services/navigate';
+import { toast } from 'react-toastify';
 
 type createValidation = z.infer<typeof createNewMemberSchema>;
 
 interface ICreateMemberForm {
     id: string;
-    celulas: CelulasResponse | undefined;
+    celulas: GetCelulasResponse[] | undefined;
 }
 
 export default function CreateMemberForm(props: ICreateMemberForm) {
-    const { id, celulas } = props;
+    const { celulas, id } = props;
 
     const [files, setFiles] = useState<File[]>([]);
     const [selectedFileName, setSelectedFileName] = useState<string>('');
-    const [error, setError] = useState('');
+
     const form = useForm<createValidation>({
         resolver: zodResolver(createNewMemberSchema),
         defaultValues: {
@@ -74,7 +76,7 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
             schoolLeaders: undefined,
             birthday: undefined,
             sexo: undefined,
-            cell: id || '',
+            cellId: '',
         },
     });
 
@@ -111,6 +113,9 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
     async function onSubmit(data: createValidation) {
         startTransition(async () => {
             await createMember(data);
+            navigate('/admin');
+            toast.success(`Membro ${data.name} criado com sucesso!`);
+            form.reset();
         });
     }
 
@@ -401,13 +406,14 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
                     {id === 'undefined' && (
                         <FormField
                             control={form.control}
-                            name="cell"
+                            name="cellId"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Célula</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
                                         disabled={isPending}
+                                        required={true}
                                     >
                                         <SelectTrigger className="rounded-full p-3">
                                             <SelectValue placeholder="Selecione a célula do membro" />
@@ -420,14 +426,13 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
                                                 </SelectLabel>
                                                 {celulas !== undefined &&
                                                     celulas.map(
-                                                        ({ nome_celula }) => (
+                                                        ({
+                                                            nome_celula,
+                                                            id,
+                                                        }) => (
                                                             <SelectItem
-                                                                key={
-                                                                    nome_celula
-                                                                }
-                                                                value={
-                                                                    nome_celula
-                                                                }
+                                                                key={id}
+                                                                value={id.toString()}
                                                             >
                                                                 {nome_celula}
                                                             </SelectItem>

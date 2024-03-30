@@ -4,26 +4,22 @@ import { Suspense, useState } from 'react';
 import { SearchMember } from './SearchMember';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MembersResponse } from '@/services/members';
+import { GetMembersResponse } from '@/services/members';
 
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-} from '@/components/ui/pagination';
-import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
+import { PaginationComponent } from '@/components/reusable/PaginationComponent';
 
 interface IMembers {
-    members: MembersResponse | undefined;
+    members: GetMembersResponse[] | undefined;
 }
 
 const pageSize = 10;
 
 export function Members(props: IMembers) {
     const { members } = props;
+
     const [searchMember, setSearchMember] = useState('');
+
     const [currentPage, setCurrentPage] = useState(1);
 
     const startIndex = (currentPage - 1) * pageSize;
@@ -31,14 +27,6 @@ export function Members(props: IMembers) {
     const currentItems =
         members !== undefined && members.slice(startIndex, endIndex);
     const totalPages = Math.ceil((members?.length || 0) / pageSize);
-
-    const handleNextPage = () => {
-        setCurrentPage((currentPage) => currentPage + 1);
-    };
-
-    const handlePrevPage = () => {
-        setCurrentPage((currentPage) => currentPage - 1);
-    };
 
     const filteredMembers =
         members !== undefined &&
@@ -57,6 +45,7 @@ export function Members(props: IMembers) {
                     <SearchMember
                         searchMember={searchMember}
                         setSearchMember={setSearchMember}
+                        placeholder="Buscar por membros..."
                     />
                     {searchMember.length >= 1 ? (
                         <div className="space-y-4">
@@ -69,53 +58,34 @@ export function Members(props: IMembers) {
                                 ))}
                         </div>
                     ) : (
-                        <div>
-                            <div className="space-y-4">
-                                {Array.isArray(currentItems) &&
-                                    currentItems.map(({ nome }) => (
-                                        <Membro
-                                            nome={nome}
-                                            nome_celula="Não tem ainda!"
-                                        />
-                                    ))}
-                            </div>
+                        <>
+                            {Array.isArray(currentItems) &&
+                            currentItems.length === 0 ? (
+                                <div className="text-center pt-5">
+                                    <p className="text-lg">
+                                        Nenhuma membro foi criada até o momento!
+                                    </p>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="space-y-4">
+                                        {Array.isArray(currentItems) &&
+                                            currentItems.map(({ nome }) => (
+                                                <Membro
+                                                    nome={nome}
+                                                    nome_celula="Não tem ainda!"
+                                                />
+                                            ))}
+                                    </div>
 
-                            <div className="mt-5">
-                                <Pagination>
-                                    <PaginationContent>
-                                        <PaginationItem>
-                                            <ChevronLeftIcon
-                                                className="cursor-pointer w-5 h-5"
-                                                onClick={handlePrevPage}
-                                            />
-                                        </PaginationItem>
-                                        {Array.from({ length: totalPages }).map(
-                                            (_, index) => (
-                                                <PaginationItem
-                                                    key={index}
-                                                    className={
-                                                        index ===
-                                                        currentPage - 1
-                                                            ? 'cursor-pointer bg-neutral-950 rounded-full'
-                                                            : ''
-                                                    }
-                                                >
-                                                    <PaginationLink>
-                                                        {index + 1}
-                                                    </PaginationLink>
-                                                </PaginationItem>
-                                            ),
-                                        )}
-                                        <PaginationItem>
-                                            <ChevronRightIcon
-                                                className="cursor-pointer w-5 h-5"
-                                                onClick={handleNextPage}
-                                            />
-                                        </PaginationItem>
-                                    </PaginationContent>
-                                </Pagination>
-                            </div>
-                        </div>
+                                    <PaginationComponent
+                                        setCurrentPage={setCurrentPage}
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                    />
+                                </>
+                            )}
+                        </>
                     )}
                 </div>
             </Suspense>
@@ -127,11 +97,8 @@ type MembroProps = {
     nome: string;
     nome_celula: string;
 };
-const Membro = ({ nome, nome_celula }: MembroProps) => (
-    <div
-        key={nome}
-        className="border rounded-3xl p-4 border-[#2b2b2b] flex flex-row gap-4 cursor-pointer items-center hover:border-slate-200 transition-colors"
-    >
+export const Membro = ({ nome, nome_celula }: MembroProps) => (
+    <div key={nome} className="cards">
         <Avatar className="w-[40px] h-[40px]">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>

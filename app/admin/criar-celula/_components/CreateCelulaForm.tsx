@@ -18,32 +18,44 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { createCelula } from '@/lib/validations';
+import { createCelulaSchema } from '@/lib/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { TopHeader } from '../../_components/TopHeader';
-import { SecretaryResponse } from '@/services/secretary';
+import { GetSecretaryResponse } from '@/services/secretary';
+import { cn } from '@/lib/utils';
+import { useTransition } from 'react';
+import { createCelula } from '@/services/celula';
+import { toast } from 'react-toastify';
+import { navigate } from '@/services/navigate';
 
-type celulaValidation = z.infer<typeof createCelula>;
+type celulaValidation = z.infer<typeof createCelulaSchema>;
 
 interface Props {
-    secretary: SecretaryResponse | undefined;
+    secretary: GetSecretaryResponse | undefined;
 }
 
 export default function CreateCelulaForm({ secretary }: Props) {
+    const [isPending, startTransition] = useTransition();
     const form = useForm<celulaValidation>({
-        resolver: zodResolver(createCelula),
+        resolver: zodResolver(createCelulaSchema),
         defaultValues: {
             celula: '',
             adress: '',
-            secretary: '',
+            secretaryId: '',
         },
     });
 
-    function onSubmit(data: celulaValidation) {
-        console.log(data);
+    async function onSubmit(data: celulaValidation) {
+        startTransition(async () => {
+            await createCelula(data);
+            toast.success(`Célula ${data.celula} criada com sucesso!`);
+            navigate('/admin');
+        });
     }
+
+    if (!secretary) return;
 
     return (
         <div className="m-6 space-y-6 lg:max-w-6xl lg:mx-auto">
@@ -64,6 +76,7 @@ export default function CreateCelulaForm({ secretary }: Props) {
                                         {...field}
                                         placeholder="Insira o nome da Celula"
                                         className="input-mask"
+                                        disabled={isPending}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -73,29 +86,40 @@ export default function CreateCelulaForm({ secretary }: Props) {
 
                     <FormField
                         control={form.control}
-                        name="secretary"
+                        name="secretaryId"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Secretario</FormLabel>
                                 <Select
                                     onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                    defaultValue={field.value.toString()}
                                 >
                                     <FormControl>
-                                        <SelectTrigger className="text-slate-300/50">
-                                            <SelectValue placeholder="Escolha o secretário para gerenciar esta célula." />
+                                        <SelectTrigger
+                                            className={cn(
+                                                field.value.toString() === ''
+                                                    ? 'text-slate-300/50'
+                                                    : 'text-white',
+                                            )}
+                                        >
+                                            {secretary.length === 0 ? (
+                                                <SelectValue placeholder="Nenhum secretário cadastrado. Por favor, criar." />
+                                            ) : (
+                                                <SelectValue placeholder="Escolha o secretário para gerenciar esta célula." />
+                                            )}
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {secretary !== undefined &&
-                                            secretary.map(({ nome }) => (
-                                                <SelectItem
-                                                    id={nome}
-                                                    value={nome}
-                                                >
-                                                    {nome}
-                                                </SelectItem>
-                                            ))}
+                                        {secretary.map(({ nome, id }) => (
+                                            <SelectItem
+                                                key={id}
+                                                id={id.toString()}
+                                                value={id.toString()}
+                                                disabled={isPending}
+                                            >
+                                                {nome}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />
@@ -114,6 +138,7 @@ export default function CreateCelulaForm({ secretary }: Props) {
                                         {...field}
                                         placeholder="Insira o Endereço"
                                         className="input-mask"
+                                        disabled={isPending}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -127,6 +152,7 @@ export default function CreateCelulaForm({ secretary }: Props) {
                             rounded="full"
                             size="full"
                             type="submit"
+                            disabled={isPending}
                         >
                             Criar Célula
                         </Button>

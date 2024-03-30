@@ -56,3 +56,7 @@ body {
 .input-mask {
     @apply border w-full bg-neutral-950/40 rounded-full py-3 px-5 outline-none focus:bg-neutral-900 placeholder:text-sm placeholder:text-slate-300/50 disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all;
 }
+
+.cards {
+    @apply border rounded-3xl p-4 border-[#2b2b2b] flex flex-row gap-4 cursor-pointer items-center hover:border-slate-200 transition-colors;
+}
