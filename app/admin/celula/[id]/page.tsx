@@ -1,14 +1,13 @@
-import CalendarCelula from '../_components/CalendarCelula';
+import CalendarCelula from '../_components/CalendarioCelula';
 
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { TopHeader } from '../../_components/TopHeader';
 import Link from 'next/link';
 import { getCelulaById } from '@/services/celula';
-import { DeleteCelula } from '../_components/DeleteCelula';
+import { DeletarCelula } from '../_components/DeletarCelula';
 
 export default async function Celula({ params }: { params: { id: number } }) {
     const { nome_celula, id, secretarioId } = await getCelulaById(params.id);
@@ -101,7 +100,7 @@ export default async function Celula({ params }: { params: { id: number } }) {
                     </Button>
                 </div>
 
-                <DeleteCelula id={Number(id) ?? ''} />
+                <DeletarCelula id={Number(id) ?? ''} />
             </div>
         </div>
     );

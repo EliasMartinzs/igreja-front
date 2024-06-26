@@ -1,9 +1,13 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { HeaderSkeleton } from './skeletons/HeaderSkeleton';
+import { HeaderSkeleton } from '../../app/admin/_components/skeletons/HeaderSkeleton';
 import { Suspense } from 'react';
 
-export function Header() {
+type Props = {
+    cargo: 'Admin' | 'Secretário';
+};
+
+export function Header({ cargo }: Props) {
     return (
         <Suspense fallback={<HeaderSkeleton />}>
             <header className="w-full px-4 pb-4 mt-4 center relative">
@@ -15,7 +19,7 @@ export function Header() {
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
 
-                <h4 className="text-center text-lg">Admin</h4>
+                <h4 className="text-center text-lg">{cargo}</h4>
             </header>
         </Suspense>
     );

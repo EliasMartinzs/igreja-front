@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateSecretaryForm from './_components/CreateSecretaryForm';
+import { CriarSecretarioForm } from './_components/CriarSecretarioForm';
 
 export default async function CreateSecretary() {
-    return <CreateSecretaryForm />;
+    return <CriarSecretarioForm />;
 }

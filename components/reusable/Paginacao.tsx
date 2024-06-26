@@ -14,7 +14,7 @@ interface PaginationProps {
     setCurrentPage: any;
 }
 
-export function PaginationComponent(props: PaginationProps) {
+export function Paginacao(props: PaginationProps) {
     const { currentPage, setCurrentPage, totalPages } = props;
 
     const handleNextPage = () => {

@@ -36,7 +36,7 @@ interface Props {
     secretary: GetSecretaryResponse | undefined;
 }
 
-export default function CreateCelulaForm({ secretary }: Props) {
+export default function CriarCelulaForm({ secretary }: Props) {
     const [isPending, startTransition] = useTransition();
     const form = useForm<celulaValidation>({
         resolver: zodResolver(createCelulaSchema),

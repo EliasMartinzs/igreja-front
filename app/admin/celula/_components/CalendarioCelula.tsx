@@ -3,7 +3,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { ptBR } from 'date-fns/locale';
 import { useState } from 'react';
 
-export default function CalendarCelula() {
+export default function CalendarioCelula() {
     const [date, setDate] = useState<Date | undefined>(new Date());
 
     return (

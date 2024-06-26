@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateMemberForm from './_components/CreateMemberForm';
 import { getCelulaById, getCelulas } from '@/services/celula';
+import { CriarMembroForm } from '@/components/reusable/CriarMembroForm';
 
 export default async function CreateNewMember({
     params,
@@ -11,7 +11,7 @@ export default async function CreateNewMember({
 
     return (
         <div>
-            <CreateMemberForm celulas={celulas} id={params.id} />
+            <CriarMembroForm celulas={celulas} id={params.id} />
         </div>
     );
 }

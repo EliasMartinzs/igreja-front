@@ -1,9 +1,8 @@
-import React from 'react';
-import CreateCelulaForm from './_components/CreateCelulaForm';
 import { getSecretary } from '@/services/secretary';
+import CriarCelulaForm from './_components/CriarCelulaForm';
 
 export default async function CreateCelula() {
     const secretary = await getSecretary();
 
-    return <CreateCelulaForm secretary={secretary} />;
+    return <CriarCelulaForm secretary={secretary} />;
 }

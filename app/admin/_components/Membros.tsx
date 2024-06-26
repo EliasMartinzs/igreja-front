@@ -1,13 +1,13 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { SearchMember } from './SearchMember';
+import { BuscarMembros } from './BuscarMembros';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { GetMembersResponse } from '@/services/members';
 
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
-import { PaginationComponent } from '@/components/reusable/PaginationComponent';
+import { Paginacao } from '@/components/reusable/Paginacao';
 
 interface IMembers {
     members: GetMembersResponse[] | undefined;
@@ -15,7 +15,7 @@ interface IMembers {
 
 const pageSize = 10;
 
-export function Members(props: IMembers) {
+export function Membros(props: IMembers) {
     const { members } = props;
 
     const [searchMember, setSearchMember] = useState('');
@@ -42,7 +42,7 @@ export function Members(props: IMembers) {
         <div>
             <Suspense fallback={<MembersSkeletons />}>
                 <div className="space-y-4">
-                    <SearchMember
+                    <BuscarMembros
                         searchMember={searchMember}
                         setSearchMember={setSearchMember}
                         placeholder="Buscar por membros..."
@@ -78,7 +78,7 @@ export function Members(props: IMembers) {
                                             ))}
                                     </div>
 
-                                    <PaginationComponent
+                                    <Paginacao
                                         setCurrentPage={setCurrentPage}
                                         currentPage={currentPage}
                                         totalPages={totalPages}

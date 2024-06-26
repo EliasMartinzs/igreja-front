@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { deleteCelula } from '@/services/celula';
 import { toast } from 'react-toastify';
 
-export function DeleteCelula({ id }: { id: number }) {
+export function DeletarCelula({ id }: { id: number }) {
     const onClick = async () => {
         await deleteCelula(id);
 

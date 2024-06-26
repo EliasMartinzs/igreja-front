@@ -1,11 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { FaCalendar, FaCalendarAlt } from 'react-icons/fa';
 import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
-
-import { Celulas } from './Celulas';
-import { getMembers } from '@/services/members';
-import { getCelulas } from '@/services/celula';
 
 type Card = {
     name: string;
@@ -13,25 +10,17 @@ type Card = {
     icon: ReactNode;
 };
 
-export async function TabsAdm() {
-    // const members = await getMembers();
-    // const celulas = await getCelulas();
-
+export async function TabsSecretario() {
     const cards: Card[] = [
         {
             icon: <FiUserPlus className="text-3xl" />,
-            link: '/admin/criar-secretario',
-            name: 'Criar Secretario',
-        },
-        {
-            icon: <FiFilePlus className="text-3xl" />,
-            link: '/admin/criar-celula',
-            name: 'Criar Célula',
-        },
-        {
-            icon: <FiUserPlus className="text-3xl" />,
-            link: '/admin/criar-membro/undefined',
+            link: '/secretario/criar-membro',
             name: 'Criar Membro',
+        },
+        {
+            icon: <FaCalendarAlt className="text-3xl" />,
+            link: '/secretario/criar-novo-encontro',
+            name: 'Criar novo Encontro',
         },
     ];
 
@@ -42,7 +31,7 @@ export async function TabsAdm() {
                 <TabsTrigger value="membros">Membros</TabsTrigger>
                 <TabsTrigger value="celulas">Células</TabsTrigger>
             </TabsList>
-            <TabsContent value="atalhos" className="grid grid-cols-3 gap-2">
+            <TabsContent value="atalhos" className="flex flex-col gap-2">
                 {cards.map((card) => (
                     <Link
                         key={card.name}
@@ -56,12 +45,8 @@ export async function TabsAdm() {
                     </Link>
                 ))}
             </TabsContent>
-            <TabsContent value="membros">
-                {/* <Members members={members} /> */}
-            </TabsContent>
-            <TabsContent value="celulas">
-                {/* <Celulas celulas={celulas} /> */}
-            </TabsContent>
+            <TabsContent value="membros"></TabsContent>
+            <TabsContent value="celulas"></TabsContent>
         </Tabs>
     );
 }

@@ -24,7 +24,7 @@ import { navigate } from '@/services/navigate';
 
 type secretarySchema = z.infer<typeof createSecretarySchema>;
 
-export default function CreateSecretaryForm() {
+export function CriarSecretarioForm() {
     const [files, setFiles] = useState<File[]>([]);
     const [selectedFileName, setSelectedFileName] = useState<string>('');
     const [isPending, startTransition] = useTransition();

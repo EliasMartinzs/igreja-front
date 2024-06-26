@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
 import { Suspense, useState } from 'react';
 import { GetCelulasResponse } from '@/services/celula';
-import { SearchMember } from './SearchMember';
-import { PaginationComponent } from '@/components/reusable/PaginationComponent';
+import { SearchMember } from './BuscarMembros';
+import { PaginationComponent } from '@/components/reusable/Paginacao';
 
 interface ICelulas {
     celulas: GetCelulasResponse[] | undefined;

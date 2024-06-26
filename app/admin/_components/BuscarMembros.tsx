@@ -6,7 +6,7 @@ interface ISearchMember {
     placeholder: string;
 }
 
-export function SearchMember(props: ISearchMember) {
+export function BuscarMembros(props: ISearchMember) {
     const { searchMember, setSearchMember, placeholder } = props;
     return (
         <input

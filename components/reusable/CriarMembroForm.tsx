@@ -1,7 +1,7 @@
 'use client';
 
 import { z } from 'zod';
-import { TopHeader } from '../../../_components/TopHeader';
+import { TopHeader } from '../../app/admin/_components/TopHeader';
 import { createNewMemberSchema } from '@/lib/validations';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -54,11 +54,11 @@ import { toast } from 'react-toastify';
 type createValidation = z.infer<typeof createNewMemberSchema>;
 
 interface ICreateMemberForm {
-    id: string;
-    celulas: GetCelulasResponse[] | undefined;
+    id?: string;
+    celulas?: GetCelulasResponse | undefined;
 }
 
-export default function CreateMemberForm(props: ICreateMemberForm) {
+export function CriarMembroForm(props: ICreateMemberForm) {
     const { celulas, id } = props;
 
     const [files, setFiles] = useState<File[]>([]);
@@ -424,7 +424,8 @@ export default function CreateMemberForm(props: ICreateMemberForm) {
                                                     {celulas === undefined &&
                                                         'Nenhuma célula encontrada!'}
                                                 </SelectLabel>
-                                                {celulas !== undefined &&
+                                                {Array.isArray(celulas) &&
+                                                    celulas !== undefined &&
                                                     celulas.map(
                                                         ({
                                                             nome_celula,
