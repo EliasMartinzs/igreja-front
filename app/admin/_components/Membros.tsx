@@ -4,19 +4,19 @@ import { Suspense, useState } from 'react';
 import { BuscarMembros } from './BuscarMembros';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { GetMembersResponse } from '@/services/members';
 
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
 import { Paginacao } from '@/components/reusable/Paginacao';
+import { GetMembersResponse } from '@/lib/types';
 
-interface IMembers {
-    members: GetMembersResponse[] | undefined;
-}
+type Props = {
+    membros: GetMembersResponse[];
+};
 
 const pageSize = 10;
 
-export function Membros(props: IMembers) {
-    const { members } = props;
+export function Membros(props: Props) {
+    const { membros } = props;
 
     const [searchMember, setSearchMember] = useState('');
 
@@ -25,12 +25,12 @@ export function Membros(props: IMembers) {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const currentItems =
-        members !== undefined && members.slice(startIndex, endIndex);
-    const totalPages = Math.ceil((members?.length || 0) / pageSize);
+        membros !== undefined && membros.slice(startIndex, endIndex);
+    const totalPages = Math.ceil((membros?.length || 0) / pageSize);
 
     const filteredMembers =
-        members !== undefined &&
-        members
+        membros !== undefined &&
+        membros
             .filter((member) =>
                 member.nome.toLowerCase().includes(searchMember.toLowerCase()),
             )

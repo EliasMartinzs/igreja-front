@@ -1,3 +1,4 @@
+import { getCelulas } from '@/services/celula';
 import { getDashboardAdmin } from '@/services/dashboard';
 
 export const StatusAdmin = async () => {

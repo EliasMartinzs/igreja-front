@@ -6,6 +6,7 @@ import {
     PaginationItem,
     PaginationLink,
 } from '@/components/ui/pagination';
+import { cn } from '@/lib/utils';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 
 interface PaginationProps {
@@ -30,7 +31,10 @@ export function Paginacao(props: PaginationProps) {
             <PaginationContent>
                 <PaginationItem>
                     <ChevronLeftIcon
-                        className="cursor-pointer w-5 h-5"
+                        className={cn(
+                            'cursor-pointer w-5 h-5',
+                            currentPage === 1 && 'hidden',
+                        )}
                         onClick={handlePrevPage}
                     />
                 </PaginationItem>
@@ -38,18 +42,21 @@ export function Paginacao(props: PaginationProps) {
                     <PaginationItem
                         key={index}
                         onClick={() => setCurrentPage(index + 1)}
-                        className={
+                        className={cn(
                             index === currentPage - 1
                                 ? 'cursor-pointer bg-neutral-600 rounded-full'
-                                : ''
-                        }
+                                : '',
+                        )}
                     >
                         <PaginationLink>{index + 1}</PaginationLink>
                     </PaginationItem>
                 ))}
                 <PaginationItem>
                     <ChevronRightIcon
-                        className="cursor-pointer w-5 h-5"
+                        className={cn(
+                            'cursor-pointer w-5 h-5',
+                            totalPages === 1 && 'hidden',
+                        )}
                         onClick={handleNextPage}
                     />
                 </PaginationItem>

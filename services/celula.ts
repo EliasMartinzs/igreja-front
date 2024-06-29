@@ -5,28 +5,12 @@ import { api } from './api';
 import { createCelulaSchema } from '@/lib/validations';
 import { revalidatePath } from 'next/cache';
 import { navigate } from './navigate';
+import { CreateCelulaResponse, GetCelulasResponse } from '@/lib/types';
 
-export type GetCelulasResponse = {
-    id: number;
-    nome_celula: string;
-    secretarioId: number;
-    latitude: number;
-    longitude: number;
-    endereco: string;
-    liderId: number;
-    liderEmTreinamentoId: number;
-};
-
-export type CreateCelulaResponse = {
-    endereco: string;
-    nome_celula: string;
-    secretarioId: string;
-};
-
-export const getCelulas = async (): Promise<GetCelulasResponse> => {
+export const pegarCelulas = async (): Promise<GetCelulasResponse[]> => {
     try {
         const response = await api.get('/celulas');
-        return response.data as GetCelulasResponse;
+        return response.data as GetCelulasResponse[];
     } catch (error: any) {
         throw new Error(error);
     }
@@ -55,12 +39,10 @@ export const createCelula = async (
 
             const response = await api.post('/celulas', {
                 nome_celula: celula,
-                secretarioId: +secretaryId,
                 endereco: adress,
                 liderId: 0,
                 liderEmTreinamentoId: 0,
-                latitude: 0,
-                longitude: 0,
+                anfitriaoId: 0,
             });
 
             revalidatePath('/admin');

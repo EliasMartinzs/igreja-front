@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
 
+import { pegarCelulas } from '@/services/celula';
+import { pegarMembros } from '@/services/membros';
+import { Membros } from './Membros';
 import { Celulas } from './Celulas';
-import { getMembers } from '@/services/members';
-import { getCelulas } from '@/services/celula';
 
 type Card = {
     name: string;
@@ -14,8 +15,8 @@ type Card = {
 };
 
 export async function TabsAdm() {
-    // const members = await getMembers();
-    // const celulas = await getCelulas();
+    const membros = await pegarMembros();
+    const celulas = await pegarCelulas();
 
     const cards: Card[] = [
         {
@@ -57,10 +58,10 @@ export async function TabsAdm() {
                 ))}
             </TabsContent>
             <TabsContent value="membros">
-                {/* <Members members={members} /> */}
+                <Membros membros={membros} />
             </TabsContent>
             <TabsContent value="celulas">
-                {/* <Celulas celulas={celulas} /> */}
+                <Celulas celulas={celulas} />
             </TabsContent>
         </Tabs>
     );

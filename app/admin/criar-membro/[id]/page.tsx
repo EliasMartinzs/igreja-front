@@ -1,17 +1,17 @@
 import React from 'react';
-import { getCelulaById, getCelulas } from '@/services/celula';
-import { CriarMembroForm } from '@/components/reusable/CriarMembroForm';
+import { CriarNovoMembroForm } from '@/components/reusable/CriarNovoMembroForm';
+import { pegarCelulas } from '@/services/celula';
 
 export default async function CreateNewMember({
     params,
 }: {
     params: { id: string };
 }) {
-    const celulas = await getCelulas();
+    const celulas = await pegarCelulas();
 
     return (
         <div>
-            <CriarMembroForm celulas={celulas} id={params.id} />
+            <CriarNovoMembroForm celulas={celulas} id={params.id} />
         </div>
     );
 }

@@ -4,12 +4,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
 import { Suspense, useState } from 'react';
-import { GetCelulasResponse } from '@/services/celula';
-import { SearchMember } from './BuscarMembros';
-import { PaginationComponent } from '@/components/reusable/Paginacao';
+import { BuscarMembros } from './BuscarMembros';
+import { Paginacao } from '@/components/reusable/Paginacao';
+import { GetCelulasResponse } from '@/lib/types';
 
 interface ICelulas {
-    celulas: GetCelulasResponse[] | undefined;
+    celulas: GetCelulasResponse[];
 }
 
 const pageSize = 10;
@@ -42,7 +42,7 @@ export function Celulas(props: ICelulas) {
     return (
         <Suspense fallback={<MembersSkeletons />}>
             <div className="space-y-4">
-                <SearchMember
+                <BuscarMembros
                     searchMember={searchCelula}
                     setSearchMember={setSearchCelula}
                     placeholder="Buscar por células..."
@@ -69,13 +69,14 @@ export function Celulas(props: ICelulas) {
                                         currentItems.map(
                                             ({ nome_celula, id }) => (
                                                 <Celula
+                                                    key={id}
                                                     id={id}
                                                     nome_celula={nome_celula}
                                                 />
                                             ),
                                         )}
 
-                                    <PaginationComponent
+                                    <Paginacao
                                         setCurrentPage={setCurrentPage}
                                         currentPage={currentPage}
                                         totalPages={totalPages}

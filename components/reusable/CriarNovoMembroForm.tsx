@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { TopHeader } from '../../app/admin/_components/TopHeader';
-import { createNewMemberSchema } from '@/lib/validations';
+import { criarNovoMembroSchema } from '@/lib/validations';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -47,36 +47,36 @@ import { FiCheckCircle } from 'react-icons/fi';
 import { GetCelulasResponse } from '@/services/celula';
 import { Spinner } from '@/components/reusable/Spinner';
 
-import { createMember } from '@/services/members';
+import { criarNovoMembro } from '@/services/membros';
 import { navigate } from '@/services/navigate';
 import { toast } from 'react-toastify';
 
-type createValidation = z.infer<typeof createNewMemberSchema>;
+type createValidation = z.infer<typeof criarNovoMembroSchema>;
 
 interface ICreateMemberForm {
     id?: string;
     celulas?: GetCelulasResponse | undefined;
 }
 
-export function CriarMembroForm(props: ICreateMemberForm) {
+export function CriarNovoMembroForm(props: ICreateMemberForm) {
     const { celulas, id } = props;
 
     const [files, setFiles] = useState<File[]>([]);
     const [selectedFileName, setSelectedFileName] = useState<string>('');
 
     const form = useForm<createValidation>({
-        resolver: zodResolver(createNewMemberSchema),
+        resolver: zodResolver(criarNovoMembroSchema),
         defaultValues: {
-            christian: undefined,
+            cristao: undefined,
             descubra: undefined,
-            img: '',
-            name: '',
-            newConvert: undefined,
-            phone: undefined,
-            schoolLeaders: undefined,
-            birthday: undefined,
+            imagem: '',
+            nome: '',
+            novoConvertido: undefined,
+            telefone: undefined,
+            lideresEscolares: undefined,
+            dataAniversario: undefined,
             sexo: undefined,
-            cellId: '',
+            celulaId: '',
         },
     });
 
@@ -112,9 +112,9 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
     async function onSubmit(data: createValidation) {
         startTransition(async () => {
-            await createMember(data);
+            await criarNovoMembro(data);
             navigate('/admin');
-            toast.success(`Membro ${data.name} criado com sucesso!`);
+            toast.success(`Membro ${data.nome} criado com sucesso!`);
             form.reset();
         });
     }
@@ -133,7 +133,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
                 >
                     <FormField
                         control={form.control}
-                        name="name"
+                        name="nome"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Nome</FormLabel>
@@ -152,7 +152,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
                     <FormField
                         control={form.control}
-                        name="phone"
+                        name="telefone"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Número</FormLabel>
@@ -200,7 +200,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
                     <FormField
                         control={form.control}
-                        name="birthday"
+                        name="dataAniversario"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
                                 <FormLabel className="mb-1">
@@ -253,7 +253,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
                     <FormField
                         control={form.control}
-                        name="christian"
+                        name="cristao"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>É Cristão?</FormLabel>
@@ -291,7 +291,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
                     <FormField
                         control={form.control}
-                        name="newConvert"
+                        name="novoConvertido"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Novo Convertido?</FormLabel>
@@ -367,7 +367,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
                     <FormField
                         control={form.control}
-                        name="schoolLeaders"
+                        name="lideresEscolares"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>É da escola de lideres?</FormLabel>
@@ -406,7 +406,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
                     {id === 'undefined' && (
                         <FormField
                             control={form.control}
-                            name="cellId"
+                            name="celulaId"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Célula</FormLabel>
@@ -450,7 +450,7 @@ export function CriarMembroForm(props: ICreateMemberForm) {
 
                     <FormField
                         control={form.control}
-                        name="img"
+                        name="imagem"
                         render={({ field }) => (
                             <div className="w-full">
                                 <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed hover:border-neutral-500 transition-colors rounded-lg cursor-pointer">
