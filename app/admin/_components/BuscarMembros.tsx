@@ -1,13 +1,12 @@
-import { Dispatch, SetStateAction } from 'react';
-
 interface ISearchMember {
     searchMember: string;
-    setSearchMember: Dispatch<SetStateAction<string>>;
+    setSearchMember: (busca: string) => void;
     placeholder: string;
 }
 
 export function BuscarMembros(props: ISearchMember) {
     const { searchMember, setSearchMember, placeholder } = props;
+
     return (
         <input
             value={searchMember}

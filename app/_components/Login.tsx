@@ -3,7 +3,7 @@ import { LoginForm } from './LoginForm';
 
 export function Login() {
     return (
-        <div className="w-full h-svh p-8 justify-center center flex-col gap-y-4 relative overflow-hidden">
+        <div className="w-full h-svh p-10 lg:py-32 justify-center center flex-col gap-y-4 relative overflow-hidden">
             <div className="text-center">
                 <Image
                     alt="logo"

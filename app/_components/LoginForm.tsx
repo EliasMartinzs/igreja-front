@@ -118,7 +118,7 @@ export function LoginForm() {
                         size="full"
                         disabled={isPending}
                     >
-                        {isPending ? <Spinner /> : 'Login'}
+                        {isPending ? <Spinner /> : 'Entrar'}
                     </Button>
                 </div>
             </form>

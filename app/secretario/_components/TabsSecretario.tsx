@@ -1,8 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { FaCalendar, FaCalendarAlt } from 'react-icons/fa';
-import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { FiUserPlus } from 'react-icons/fi';
 
 type Card = {
     name: string;
@@ -29,9 +30,9 @@ export async function TabsSecretario() {
             <TabsList className="grid grid-cols-3 rounded-full mb-4">
                 <TabsTrigger value="atalhos">Atalhos</TabsTrigger>
                 <TabsTrigger value="membros">Membros</TabsTrigger>
-                <TabsTrigger value="celulas">Células</TabsTrigger>
+                <TabsTrigger value="encontros">Encontros</TabsTrigger>
             </TabsList>
-            <TabsContent value="atalhos" className="flex flex-col gap-2">
+            <TabsContent value="atalhos" className="flex gap-2">
                 {cards.map((card) => (
                     <Link
                         key={card.name}
@@ -45,8 +46,8 @@ export async function TabsSecretario() {
                     </Link>
                 ))}
             </TabsContent>
+            {/* TODO: pegar membros da celula atual */}
             <TabsContent value="membros"></TabsContent>
-            <TabsContent value="celulas"></TabsContent>
         </Tabs>
     );
 }

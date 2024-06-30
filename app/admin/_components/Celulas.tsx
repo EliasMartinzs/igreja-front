@@ -12,7 +12,7 @@ interface ICelulas {
     celulas: GetCelulasResponse[];
 }
 
-const pageSize = 10;
+const pageSize = 5;
 
 export function Celulas({ celulas }: ICelulas) {
     const [searchCelula, setSearchCelula] = useState('');
@@ -57,6 +57,7 @@ export function Celulas({ celulas }: ICelulas) {
                     {!searchCelula && paginatedCelulas.length > 0 && (
                         <CelulaList celulas={paginatedCelulas} />
                     )}
+
                     {totalPages > 1 && (
                         <Paginacao
                             setCurrentPage={setCurrentPage}

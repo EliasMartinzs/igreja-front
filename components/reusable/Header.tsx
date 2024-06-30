@@ -19,7 +19,7 @@ export function Header({ cargo }: Props) {
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
 
-                <h4 className="text-center text-lg">{cargo}</h4>
+                <h4 className="text-center text-lg font-light">{cargo}</h4>
             </header>
         </Suspense>
     );

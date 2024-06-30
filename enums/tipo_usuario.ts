@@ -1,4 +1,4 @@
 export enum TipoUsuario {
-    admin = 1,
-    secretario = 2,
+    admin = 2,
+    secretario = 1,
 }

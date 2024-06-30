@@ -535,7 +535,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                     <div className="mt-5">
                         <Button
                             className={cn(
-                                'p-7 bg-darkRed font-semibold text-lg hover:bg-darkRed/70 transition-colors',
+                                'bg-darkRed font-semibold hover:bg-darkRed/70 transition-colors',
                                 isPending && 'bg-opacity-70',
                             )}
                             rounded="full"

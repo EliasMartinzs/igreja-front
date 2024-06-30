@@ -1,6 +1,6 @@
-import React from 'react';
 import { CriarNovoMembroForm } from '@/components/reusable/CriarNovoMembroForm';
 import { pegarCelulas } from '@/services/celula';
+import { Wrapper } from '@/components/reusable/Wrapper';
 
 export default async function CreateNewMember({
     params,
@@ -10,8 +10,8 @@ export default async function CreateNewMember({
     const celulas = await pegarCelulas();
 
     return (
-        <div>
+        <Wrapper>
             <CriarNovoMembroForm celulas={celulas} id={params.id} />
-        </div>
+        </Wrapper>
     );
 }

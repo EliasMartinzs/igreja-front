@@ -1,7 +1,6 @@
 import CalendarCelula from '../_components/CalendarioCelula';
 
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 
 import { Button } from '@/components/ui/button';
 import { TopHeader } from '../../_components/TopHeader';
@@ -10,14 +9,14 @@ import { getCelulaById } from '@/services/celula';
 import { DeletarCelula } from '../_components/DeletarCelula';
 import { pegarMembros } from '@/services/membros';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { AuthContext } from '@/contexts/AuthContext';
+import { Wrapper } from '@/components/reusable/Wrapper';
 
 export default async function Celula({ params }: { params: { id: number } }) {
     const { nome_celula, id, secretarioId } = await getCelulaById(params.id);
     const membros = await pegarMembros();
 
     return (
-        <div className="m-6 lg:max-w-6xl lg:mx-auto">
+        <Wrapper>
             <div key={id} className="space-y-10">
                 <TopHeader message={nome_celula ?? ''} href={'/admin'} />
 
@@ -87,7 +86,7 @@ export default async function Celula({ params }: { params: { id: number } }) {
                 <div className="flex-1 flex items-center gap-x-3">
                     <Link href={`/admin/criar-membro/${id}`} className="w-full">
                         <Button
-                            className="py-7 text-lg border hover:bg-darkRed transition-colors hover:border-none"
+                            className="border hover:bg-darkRed transition-colors hover:border-none"
                             rounded="full"
                             size="full"
                         >
@@ -95,7 +94,7 @@ export default async function Celula({ params }: { params: { id: number } }) {
                         </Button>
                     </Link>
                     <Button
-                        className="py-7 text-lg bg-darkRed hover:bg-transparent hover:border transition-colors"
+                        className="bg-darkRed hover:bg-transparent hover:border transition-colors"
                         rounded="full"
                         size="full"
                     >
@@ -105,6 +104,6 @@ export default async function Celula({ params }: { params: { id: number } }) {
 
                 <DeletarCelula id={Number(id) ?? ''} />
             </div>
-        </div>
+        </Wrapper>
     );
 }

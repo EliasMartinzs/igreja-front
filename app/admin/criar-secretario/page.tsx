@@ -1,5 +1,10 @@
+import { Wrapper } from '@/components/reusable/Wrapper';
 import { CriarSecretarioForm } from './_components/CriarSecretarioForm';
 
 export default function CreateSecretary() {
-    return <CriarSecretarioForm />;
+    return (
+        <Wrapper>
+            <CriarSecretarioForm />
+        </Wrapper>
+    );
 }

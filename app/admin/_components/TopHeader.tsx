@@ -11,10 +11,10 @@ export function TopHeader(props: ITopHeader) {
     return (
         <div className="mt-8 text-center center">
             <Link href={href}>
-                <FaArrowLeft className="text-2xl" />
+                <FaArrowLeft className="size-4" />
             </Link>
             <div className="flex-1">
-                <h4 className="text-lg">{message}</h4>
+                <small>{message}</small>
             </div>
         </div>
     );

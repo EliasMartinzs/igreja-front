@@ -37,7 +37,7 @@ export async function TabsAdm() {
     ];
 
     return (
-        <Tabs defaultValue="atalhos" className="">
+        <Tabs defaultValue="atalhos">
             <TabsList className="grid grid-cols-3 rounded-full mb-4">
                 <TabsTrigger value="atalhos">Atalhos</TabsTrigger>
                 <TabsTrigger value="membros">Membros</TabsTrigger>

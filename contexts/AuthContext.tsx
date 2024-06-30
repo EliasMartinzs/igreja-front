@@ -1,11 +1,16 @@
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import { parseCookies, setCookie } from 'nookies';
-import { ReactNode, createContext, useEffect, useState } from 'react';
+import {
+    ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
 import { TipoUsuario } from '../enums/tipo_usuario';
 import { signRequest } from '../services/auth';
 import { User } from '../models/user';
-import { api } from '@/services/api';
 
 type AuthContextType = {
     isAuthenticated: boolean;
@@ -23,6 +28,10 @@ interface AuthProviderProps {
 }
 
 export const AuthContext = createContext({} as AuthContextType);
+
+export const useAuth = () => {
+    return useContext(AuthContext);
+};
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);

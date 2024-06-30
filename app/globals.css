@@ -54,7 +54,7 @@ body {
 }
 
 .input-mask {
-    @apply border w-full bg-neutral-950/40 rounded-full py-3 px-5 outline-none focus:bg-neutral-900 placeholder:text-sm placeholder:text-slate-300/50 disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all;
+    @apply border w-full bg-neutral-950/40 rounded-full p-3 outline-none focus:bg-neutral-900 text-[12px] placeholder:text-[12px] placeholder:text-slate-300/50 disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-colors;
 }
 
 .cards {

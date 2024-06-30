@@ -13,7 +13,7 @@ type Props = {
     membros: GetMembersResponse[];
 };
 
-const pageSize = 10;
+const pageSize = 5;
 
 export function Membros(props: Props) {
     const { membros } = props;
@@ -70,19 +70,24 @@ export function Membros(props: Props) {
                                 <>
                                     <div className="space-y-4">
                                         {Array.isArray(currentItems) &&
-                                            currentItems.map(({ nome }) => (
-                                                <Membro
-                                                    nome={nome}
-                                                    nome_celula="Não tem ainda!"
-                                                />
-                                            ))}
+                                            currentItems.map(
+                                                ({ nome }, index) => (
+                                                    <Membro
+                                                        key={index}
+                                                        nome={nome}
+                                                        nome_celula="Não tem ainda!"
+                                                    />
+                                                ),
+                                            )}
                                     </div>
 
-                                    <Paginacao
-                                        setCurrentPage={setCurrentPage}
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                    />
+                                    {totalPages > 1 && (
+                                        <Paginacao
+                                            setCurrentPage={setCurrentPage}
+                                            currentPage={currentPage}
+                                            totalPages={totalPages}
+                                        />
+                                    )}
                                 </>
                             )}
                         </>
