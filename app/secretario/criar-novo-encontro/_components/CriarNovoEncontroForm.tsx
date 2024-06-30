@@ -3,13 +3,33 @@
 import { TopHeader } from '@/app/admin/_components/TopHeader';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ptBR } from 'date-fns/locale';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Logo from '@/public/images/logo_color_01_variacao.png';
+import {
+    Select,
+    SelectContent,
+    SelectTrigger,
+    SelectValue,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectScrollDownButton,
+    SelectScrollUpButton,
+    SelectSeparator,
+} from '@/components/ui/select';
+import { GetCelulasResponse, GetMembersResponse } from '@/lib/types';
 
 const formSchema = z.object({
     data: z.date({
@@ -38,7 +58,13 @@ const fakeMembros = [
     },
 ];
 
-export const CriarNovoEncontroForm = () => {
+export const CriarNovoEncontroForm = ({
+    celulas,
+    membros,
+}: {
+    celulas: GetCelulasResponse[];
+    membros: GetMembersResponse[];
+}) => {
     const form = useForm<CriarValidacao>({
         resolver: zodResolver(formSchema),
     });
@@ -49,12 +75,12 @@ export const CriarNovoEncontroForm = () => {
 
     return (
         <div className="m-6 space-y-6 lg:max-w-6xl lg:mx-auto">
-            <TopHeader message="Cadastrar novo Membro" href="/secretario" />
+            <TopHeader message="Novo encontro" href="/secretario" />
 
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-5"
+                    className="space-y-8"
                 >
                     <FormField
                         control={form.control}
@@ -72,6 +98,7 @@ export const CriarNovoEncontroForm = () => {
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="observaoes"
@@ -92,26 +119,32 @@ export const CriarNovoEncontroForm = () => {
                         <h4 className="font-medium">Membros</h4>
 
                         <div className="space-y-5">
-                            {fakeMembros.map(({ celula, nome }, i) => (
-                                <div
-                                    key={i}
-                                    className="flex items-center justify-start gap-3 border rounded-lg p-2"
-                                >
-                                    <Image
-                                        src={Logo}
-                                        alt={nome}
-                                        width={48}
-                                        height={48}
-                                    />
+                            {membros.length === 0 ? (
+                                <p className="text-muted-foreground">
+                                    Esta célula não tem membros
+                                </p>
+                            ) : (
+                                membros.map(({ nome_celula, nome }, i) => (
+                                    <div
+                                        key={i}
+                                        className="flex items-center justify-start gap-3 border rounded-lg p-2"
+                                    >
+                                        <Image
+                                            src={Logo}
+                                            alt={nome}
+                                            width={48}
+                                            height={48}
+                                        />
 
-                                    <div>
-                                        <p>{nome}</p>
-                                        <p className="text-muted-foreground">
-                                            {celula}
-                                        </p>
+                                        <div>
+                                            <p>{nome}</p>
+                                            <p className="text-muted-foreground">
+                                                {nome_celula}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </div>
 

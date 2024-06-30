@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { MembersSkeletons } from './skeletons/MembersSkeletons';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useMemo } from 'react';
 import { BuscarMembros } from './BuscarMembros';
 import { Paginacao } from '@/components/reusable/Paginacao';
 import { GetCelulasResponse } from '@/lib/types';
@@ -14,30 +14,28 @@ interface ICelulas {
 
 const pageSize = 10;
 
-export function Celulas(props: ICelulas) {
-    const { celulas } = props;
+export function Celulas({ celulas }: ICelulas) {
     const [searchCelula, setSearchCelula] = useState('');
-
     const [currentPage, setCurrentPage] = useState(1);
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentItems =
-        celulas !== undefined && celulas.slice(startIndex, endIndex);
-    const totalPages = Math.ceil((celulas?.length || 0) / pageSize);
 
-    const filteredCelulas =
-        celulas !== undefined &&
-        celulas
-            .filter((member) =>
-                member.nome_celula
-                    .toLowerCase()
-                    .includes(searchCelula.toLowerCase()),
-            )
-            .map((member) => ({
-                nome_celula: member.nome_celula,
-                id: member.id,
-            }));
+    const filteredCelulas = useMemo(() => {
+        if (!celulas) return [];
+
+        return celulas.filter((celula) =>
+            celula.nome_celula
+                .toLowerCase()
+                .includes(searchCelula.toLowerCase()),
+        );
+    }, [celulas, searchCelula]);
+
+    const paginatedCelulas = useMemo(() => {
+        return filteredCelulas.slice(startIndex, endIndex);
+    }, [filteredCelulas, startIndex, endIndex]);
+
+    const totalPages = Math.ceil(filteredCelulas.length / pageSize);
 
     return (
         <Suspense fallback={<MembersSkeletons />}>
@@ -48,42 +46,23 @@ export function Celulas(props: ICelulas) {
                     placeholder="Buscar por células..."
                 />
                 <div className="flex flex-col gap-y-4">
-                    {searchCelula.length >= 1 ? (
-                        <div className="space-y-4">
-                            {Array.isArray(filteredCelulas) &&
-                                filteredCelulas.map(({ nome_celula, id }) => (
-                                    <Celula id={id} nome_celula={nome_celula} />
-                                ))}
+                    {searchCelula && <CelulaList celulas={filteredCelulas} />}
+                    {!searchCelula && paginatedCelulas.length === 0 && (
+                        <div className="text-center pt-5">
+                            <p className="text-lg">
+                                Nenhuma célula foi criada até o momento!
+                            </p>
                         </div>
-                    ) : (
-                        <>
-                            {currentItems === false ? (
-                                <div className="text-center pt-5">
-                                    <p className="text-lg">
-                                        Nenhuma célula foi criada até o momento!
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className="space-y-4">
-                                    {Array.isArray(currentItems) &&
-                                        currentItems.map(
-                                            ({ nome_celula, id }) => (
-                                                <Celula
-                                                    key={id}
-                                                    id={id}
-                                                    nome_celula={nome_celula}
-                                                />
-                                            ),
-                                        )}
-
-                                    <Paginacao
-                                        setCurrentPage={setCurrentPage}
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                    />
-                                </div>
-                            )}
-                        </>
+                    )}
+                    {!searchCelula && paginatedCelulas.length > 0 && (
+                        <CelulaList celulas={paginatedCelulas} />
+                    )}
+                    {totalPages > 1 && (
+                        <Paginacao
+                            setCurrentPage={setCurrentPage}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                        />
                     )}
                 </div>
             </div>
@@ -91,23 +70,28 @@ export function Celulas(props: ICelulas) {
     );
 }
 
-const Celula = ({ id, nome_celula }: { id: number; nome_celula: string }) => {
-    return (
-        <Link href={`/admin/celula/${id}`} key={nome_celula} className="cards">
-            <div className="flex flex-row items-center justify-start gap-x-3">
-                <Avatar className="">
-                    <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+const CelulaList = ({ celulas }: { celulas: GetCelulasResponse[] }) => (
+    <div className="space-y-4">
+        {celulas.map(({ nome_celula, id }) => (
+            <Celula key={id} id={id} nome_celula={nome_celula} />
+        ))}
+    </div>
+);
 
-                <div>
-                    <h6 className="font-semibold">{nome_celula}</h6>
-                    <small>nome do secretario aqui</small>
-                </div>
+const Celula = ({ id, nome_celula }: { id: number; nome_celula: string }) => (
+    <Link href={`/admin/celula/${id}`} key={id} className="cards">
+        <div className="flex flex-row items-center justify-start gap-x-3">
+            <Avatar>
+                <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div>
+                <h6 className="font-semibold">{nome_celula}</h6>
+                <small>nome do secretario aqui</small>
             </div>
-        </Link>
-    );
-};
+        </div>
+    </Link>
+);

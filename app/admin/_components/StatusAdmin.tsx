@@ -1,8 +1,7 @@
-import { getCelulas } from '@/services/celula';
-import { getDashboardAdmin } from '@/services/dashboard';
+import { pegarDashboardAdmin } from '@/services/dashboard-admin';
 
 export const StatusAdmin = async () => {
-    const data = await getDashboardAdmin();
+    const data = await pegarDashboardAdmin();
 
     return (
         <div className="flex flex-col gap-2">

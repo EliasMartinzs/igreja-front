@@ -44,18 +44,18 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { ptBR } from 'date-fns/locale';
 
 import { FiCheckCircle } from 'react-icons/fi';
-import { GetCelulasResponse } from '@/services/celula';
 import { Spinner } from '@/components/reusable/Spinner';
 
 import { criarNovoMembro } from '@/services/membros';
 import { navigate } from '@/services/navigate';
 import { toast } from 'react-toastify';
+import { GetCelulasResponse } from '@/lib/types';
 
 type createValidation = z.infer<typeof criarNovoMembroSchema>;
 
 interface ICreateMemberForm {
     id?: string;
-    celulas?: GetCelulasResponse | undefined;
+    celulas?: GetCelulasResponse[];
 }
 
 export function CriarNovoMembroForm(props: ICreateMemberForm) {
@@ -421,8 +421,9 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>
-                                                    {celulas === undefined &&
-                                                        'Nenhuma célula encontrada!'}
+                                                    {celulas === undefined ||
+                                                        (celulas.length === 0 &&
+                                                            'Nenhuma célula encontrada!')}
                                                 </SelectLabel>
                                                 {Array.isArray(celulas) &&
                                                     celulas !== undefined &&

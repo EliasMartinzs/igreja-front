@@ -31,6 +31,8 @@ export const criarNovoMembro = async (
 ) => {
     const parsedData = criarNovoMembroSchema.safeParse(data);
 
+    console.log(parsedData);
+
     if (parsedData.success) {
         const {
             cristao,

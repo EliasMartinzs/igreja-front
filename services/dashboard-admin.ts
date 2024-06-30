@@ -6,7 +6,7 @@ type DashboardResponse = {
     totalEncontros: number;
 };
 
-export const getDashboardAdmin = async (): Promise<DashboardResponse> => {
+export const pegarDashboardAdmin = async (): Promise<DashboardResponse> => {
     try {
         const response = await api.get('/dashboard/admin');
         return response.data as DashboardResponse;

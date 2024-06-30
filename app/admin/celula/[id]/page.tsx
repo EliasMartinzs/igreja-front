@@ -8,9 +8,13 @@ import { TopHeader } from '../../_components/TopHeader';
 import Link from 'next/link';
 import { getCelulaById } from '@/services/celula';
 import { DeletarCelula } from '../_components/DeletarCelula';
+import { pegarMembros } from '@/services/membros';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AuthContext } from '@/contexts/AuthContext';
 
 export default async function Celula({ params }: { params: { id: number } }) {
     const { nome_celula, id, secretarioId } = await getCelulaById(params.id);
+    const membros = await pegarMembros();
 
     return (
         <div className="m-6 lg:max-w-6xl lg:mx-auto">
@@ -26,44 +30,21 @@ export default async function Celula({ params }: { params: { id: number } }) {
                 <CalendarCelula />
 
                 <div>
-                    <Label className="font-semibold text-lg">
+                    <small className="font-semibold">
                         Observações
                         <Textarea
-                            className="border w-full bg-neutral-950/70 rounded-lg py-3 outline-none focus:bg-neutral-900 placeholder:text-sm disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all"
+                            className="border w-full bg-neutral-950/70 rounded-lg py-3 outline-none focus:bg-neutral-900 placeholder:text-sm disabled:bg-transparent disabled:border-neutral-950/70 duration-150 ease-in transition-all mt-2"
                             rows={8}
                             placeholder="Observações"
                         />
-                    </Label>
-                </div>
-
-                {/* <div>
-                    <h4 className="font-semibold text-lg">Membros</h4>
-
-                    <div className="space-y-5">
-                        {Array.isArray(members) &&
-                            members.map(({ nome }) => (
-                                <div
-                                    key={nome}
-                                    className="py-2 px-1 border flex items-center gap-x-3 rounded-lg mt-3"
-                                >
-                                    <Avatar className="">
-                                        <AvatarImage
-                                            src="https://github.com/shadcn.png"
-                                            alt="@shadcn"
-                                        />
-                                        <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                    <p>{nome}</p>
-                                </div>
-                            ))}
-                    </div>
+                    </small>
                 </div>
 
                 <div>
-                    <h4 className="font-semibold text-lg">Visitante</h4>
-                    
+                    <h4 className="font-semibold text-lg">Membros</h4>
+
                     <div className="space-y-5">
-                        {members.map(({ nome }) => (
+                        {membros.map(({ nome }) => (
                             <div
                                 key={nome}
                                 className="py-2 px-1 border flex items-center gap-x-3 rounded-lg mt-3"
@@ -79,7 +60,29 @@ export default async function Celula({ params }: { params: { id: number } }) {
                             </div>
                         ))}
                     </div>
-                </div> */}
+                </div>
+
+                <div>
+                    <h4 className="font-semibold text-lg">Visitante</h4>
+
+                    <div className="space-y-5">
+                        {membros.map(({ nome }) => (
+                            <div
+                                key={nome}
+                                className="py-2 px-1 border flex items-center gap-x-3 rounded-lg mt-3"
+                            >
+                                <Avatar className="">
+                                    <AvatarImage
+                                        src="https://github.com/shadcn.png"
+                                        alt="@shadcn"
+                                    />
+                                    <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                                <p>{nome}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
                 <div className="flex-1 flex items-center gap-x-3">
                     <Link href={`/admin/criar-membro/${id}`} className="w-full">
