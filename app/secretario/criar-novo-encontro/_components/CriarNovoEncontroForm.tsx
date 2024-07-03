@@ -3,39 +3,20 @@
 import { TopHeader } from '@/app/admin/_components/TopHeader';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ptBR } from 'date-fns/locale';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Logo from '@/public/images/logo_color_01_variacao.png';
-import {
-    Select,
-    SelectContent,
-    SelectTrigger,
-    SelectValue,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectScrollDownButton,
-    SelectScrollUpButton,
-    SelectSeparator,
-} from '@/components/ui/select';
 import { GetCelulasResponse, GetMembersResponse } from '@/lib/types';
 
 const formSchema = z.object({
     data: z.date({
         required_error: 'Por favor selecione uma data',
     }),
-    observaoes: z.string().optional(),
+    observacoes: z.string().optional(),
 });
 
 type CriarValidacao = z.infer<typeof formSchema>;
@@ -67,6 +48,10 @@ export const CriarNovoEncontroForm = ({
 }) => {
     const form = useForm<CriarValidacao>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            data: undefined,
+            observacoes: '',
+        },
     });
 
     const onSubmit = (values: CriarValidacao) => {
@@ -101,7 +86,7 @@ export const CriarNovoEncontroForm = ({
 
                     <FormField
                         control={form.control}
-                        name="observaoes"
+                        name="observacoes"
                         render={({ field }) => (
                             <FormItem className="flex items-center justify-center">
                                 <FormControl>

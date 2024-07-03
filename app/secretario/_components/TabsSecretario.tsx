@@ -1,4 +1,6 @@
+import { Membros } from '@/components/reusable/Membros';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { pegarMembros } from '@/services/membros';
 
 import Link from 'next/link';
 import { ReactNode } from 'react';
@@ -12,6 +14,8 @@ type Card = {
 };
 
 export async function TabsSecretario() {
+    const membros = await pegarMembros();
+
     const cards: Card[] = [
         {
             icon: <FiUserPlus className="text-3xl" />,
@@ -47,7 +51,9 @@ export async function TabsSecretario() {
                 ))}
             </TabsContent>
             {/* TODO: pegar membros da celula atual */}
-            <TabsContent value="membros"></TabsContent>
+            <TabsContent value="membros">
+                <Membros membros={membros} />
+            </TabsContent>
         </Tabs>
     );
 }

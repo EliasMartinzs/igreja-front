@@ -35,34 +35,25 @@ export const createCelulaSchema = z.object({
 });
 
 export const criarNovoMembroSchema = z.object({
-    nome: z.string().min(6, {
-        message: 'Por favor, insira o nome completo.',
-    }),
-    telefone: z
+    nome: z
         .string()
-        .min(11, {
-            message:
-                'Por favor, insira o número de telefone corretamente (com DDD e DDI, se aplicável)',
+        .min(6, {
+            message: 'Por favor, insira o nome completo.',
         })
-        .max(15),
-    sexo: z.enum(['Masculino', 'Feminino']),
-    cristao: z.boolean({
-        description: 'Por favor, indique se é cristão ou não.',
+        .optional(),
+    telefone: z.string().min(11, {
+        message: 'Por favor, insira o numero',
     }),
-    novoConvertido: z.boolean({
-        description: 'Por favor, indique se é um novo convertido ou não.',
+    sexo: z.enum(['Masculino', 'Feminino'], {
+        errorMap: () => ({
+            message: 'Selecione um dos campos: Masculino ou Feminino.',
+        }),
     }),
-    descubra: z.boolean({
-        description: 'Por favor, indique sim ou não.',
-    }),
-    lideresEscolares: z.boolean({
-        description: 'Por favor, indique sim ou não.',
-    }),
-    celulaId: z.string().min(1, {
-        message: 'Por favor, selecione uma célula para este membro.',
-    }),
-    dataAniversario: z.date({
-        required_error: 'Por favor, forneça uma data de aniversário válida.',
-    }),
+    cristao: z.boolean(),
+    novoConvertido: z.boolean(),
+    descubra: z.boolean(),
+    lideresEscolares: z.boolean(),
+    celulaId: z.string(),
+    dataAniversario: z.string(),
     imagem: z.string().optional(),
 });

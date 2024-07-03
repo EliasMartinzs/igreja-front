@@ -2,9 +2,9 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { MembersSkeletons } from './skeletons/MembersSkeletons';
+import { MembersSkeletons } from '../../app/admin/_components/skeletons/MembersSkeletons';
 import { Suspense, useState, useMemo } from 'react';
-import { BuscarMembros } from './BuscarMembros';
+import { BuscarMembros } from '../../app/admin/_components/BuscarMembros';
 import { Paginacao } from '@/components/reusable/Paginacao';
 import { GetCelulasResponse } from '@/lib/types';
 

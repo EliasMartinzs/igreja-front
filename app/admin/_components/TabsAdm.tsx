@@ -5,8 +5,8 @@ import { FiFilePlus, FiUserPlus } from 'react-icons/fi';
 
 import { pegarCelulas } from '@/services/celula';
 import { pegarMembros } from '@/services/membros';
-import { Membros } from './Membros';
-import { Celulas } from './Celulas';
+import { Membros } from '../../../components/reusable/Membros';
+import { Celulas } from '../../../components/reusable/Celulas';
 
 type Card = {
     name: string;

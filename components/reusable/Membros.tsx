@@ -1,11 +1,11 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { BuscarMembros } from './BuscarMembros';
+import { BuscarMembros } from '../../app/admin/_components/BuscarMembros';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { MembersSkeletons } from './skeletons/MembersSkeletons';
+import { MembersSkeletons } from '../../app/admin/_components/skeletons/MembersSkeletons';
 import { Paginacao } from '@/components/reusable/Paginacao';
 import { GetMembersResponse } from '@/lib/types';
 
@@ -52,8 +52,9 @@ export function Membros(props: Props) {
                             {Array.isArray(filteredMembers) &&
                                 filteredMembers.map(({ nome }) => (
                                     <Membro
+                                        key={nome}
                                         nome={nome}
-                                        nome_celula="Ñão tem ainda"
+                                        nome_celula="Não tem ainda"
                                     />
                                 ))}
                         </div>

@@ -15,12 +15,6 @@ import {
 } from '@/components/ui/form';
 
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-
-import {
     Select,
     SelectContent,
     SelectGroup,
@@ -30,9 +24,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns';
-
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
@@ -40,8 +31,6 @@ import { Button } from '@/components/ui/button';
 import { InputMask } from '@react-input/mask';
 import { ChangeEvent, useRef, useState, useTransition } from 'react';
 import { cn } from '@/lib/utils';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { ptBR } from 'date-fns/locale';
 
 import { FiCheckCircle } from 'react-icons/fi';
 import { Spinner } from '@/components/reusable/Spinner';
@@ -53,12 +42,12 @@ import { GetCelulasResponse } from '@/lib/types';
 
 type createValidation = z.infer<typeof criarNovoMembroSchema>;
 
-interface ICreateMemberForm {
+type Props = {
     id?: string;
     celulas?: GetCelulasResponse[];
-}
+};
 
-export function CriarNovoMembroForm(props: ICreateMemberForm) {
+export function CriarNovoMembroForm(props: Props) {
     const { celulas, id } = props;
 
     const [files, setFiles] = useState<File[]>([]);
@@ -72,7 +61,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
             imagem: '',
             nome: '',
             novoConvertido: undefined,
-            telefone: undefined,
+            telefone: '',
             lideresEscolares: undefined,
             dataAniversario: undefined,
             sexo: undefined,
@@ -156,14 +145,17 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Número</FormLabel>
-                                <InputMask
-                                    mask="(__) _____-____"
-                                    replacement={{ _: /\d/ }}
-                                    {...field}
-                                    className="input-mask"
-                                    placeholder="(00) 00000-0000"
-                                    disabled={isPending}
-                                />
+                                <FormControl>
+                                    <InputMask
+                                        mask="(__) _____-____"
+                                        replacement={{ _: /\d/ }}
+                                        {...field}
+                                        className="input-mask"
+                                        placeholder="(00) 00000-0000"
+                                        disabled={isPending}
+                                    />
+                                </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -180,6 +172,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                         onValueChange={field.onChange}
                                         value={field.value}
                                         disabled={isPending}
+                                        required
                                     >
                                         <div className="flex items-center space-x-2 w-48">
                                             <RadioGroupItem value="Masculino" />
@@ -206,46 +199,18 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                 <FormLabel className="mb-1">
                                     Nascimento
                                 </FormLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                className={cn(
-                                                    'border rounded-full py-6 bg-neutral-950/40',
-                                                    !field.value && '',
-                                                )}
-                                            >
-                                                {field.value ? (
-                                                    format(
-                                                        field.value,
-                                                        'dd/MM/yyyy',
-                                                    )
-                                                ) : (
-                                                    <span className="bg-transparent">
-                                                        Escolha uma data
-                                                    </span>
-                                                )}
-                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent
-                                        className="w-auto p-0"
-                                        align="start"
-                                    >
-                                        <Calendar
-                                            mode="single"
-                                            locale={ptBR}
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() ||
-                                                date < new Date('1900-01-01')
-                                            }
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
+                                <InputMask
+                                    mask="dd/mm/yyyy"
+                                    replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                                    showMask
+                                    separate
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    placeholder="dd/mm/aaaa"
+                                    className="input-mask"
+                                    type="text"
+                                />
+
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -260,6 +225,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                 <FormControl>
                                     <RadioGroup
                                         className="flex w-full"
+                                        required
                                         disabled={isPending}
                                         onValueChange={(value) =>
                                             field.onChange(
@@ -278,13 +244,13 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                             <RadioGroupItem value="true" />
                                             <Label htmlFor="r1">Sim</Label>
                                         </div>
-                                        <div className="flex items-centerspace-x-2">
+                                        <div className="flex items-center space-x-2">
                                             <RadioGroupItem value="false" />
                                             <Label htmlFor="r2">Não</Label>
                                         </div>
                                     </RadioGroup>
                                 </FormControl>
-                                <FormMessage></FormMessage>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -298,6 +264,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                 <FormControl>
                                     <RadioGroup
                                         className="flex w-full"
+                                        required
                                         disabled={isPending}
                                         onValueChange={(value) =>
                                             field.onChange(
@@ -336,6 +303,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                 <FormControl>
                                     <RadioGroup
                                         className="flex w-full"
+                                        required
                                         disabled={isPending}
                                         onValueChange={(value) =>
                                             field.onChange(
@@ -374,6 +342,7 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                 <FormControl>
                                     <RadioGroup
                                         className="flex w-full"
+                                        required
                                         disabled={isPending}
                                         onValueChange={(value) =>
                                             field.onChange(
@@ -412,8 +381,8 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
                                     <FormLabel>Célula</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
+                                        required
                                         disabled={isPending}
-                                        required={true}
                                     >
                                         <SelectTrigger className="rounded-full p-3">
                                             <SelectValue placeholder="Selecione a célula do membro" />
@@ -550,3 +519,54 @@ export function CriarNovoMembroForm(props: ICreateMemberForm) {
         </div>
     );
 }
+
+//     name: z.string(),
+// });
+// type FormValidation = z.infer<typeof formSchema>;
+
+// export const CriarNovoMembroForm = ({ id, celulas }: Props) => {
+//     const form = useForm<FormValidation>({
+//         resolver: zodResolver(formSchema),
+//         defaultValues: {},
+//     });
+
+//     function onSubmit(data: FormValidation) {
+//         console.log(data);
+//     }
+
+//     return (
+//         <div className="m-6 space-y-6 lg:max-w-6xl lg:mx-auto">
+//             <TopHeader
+//                 message="Cadastrar novo Membro"
+//                 href={id === 'undefined' ? '/admin' : `/admin/celula/${id}`}
+//             />
+
+//             <Form {...form}>
+//                 <form
+//                     onSubmit={form.handleSubmit(onSubmit)}
+//                     className="space-y-8"
+//                 >
+//                     <FormField
+//                         control={form.control}
+//                         name="name"
+//                         render={({ field }) => (
+//                             <FormItem>
+//                                 <small>Username</small>
+//                                 <FormControl>
+//                                     <input
+//                                         placeholder="Jonh doe"
+//                                         className="input-mask"
+//                                         {...field}
+//                                     />
+//                                 </FormControl>
+
+//                                 <FormMessage />
+//                             </FormItem>
+//                         )}
+//                     />
+//                     <Button type="submit">Submit</Button>
+//                 </form>
+//             </Form>
+//         </div>
+//     );
+// };
